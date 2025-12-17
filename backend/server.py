@@ -12,7 +12,8 @@ import uuid
 from datetime import datetime, timezone, timedelta
 import bcrypt
 import jwt
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+# REMOVIDO: emergentintegrations não disponível no Render
+# from emergentintegrations.llm.chat import LlmChat, UserMessage
 from pdf_processor import WatizatPDFProcessor
 from auto_responses import get_auto_response, format_auto_response_post
 from help_locations import HELP_LOCATIONS, get_all_help_locations, get_help_locations_by_category
