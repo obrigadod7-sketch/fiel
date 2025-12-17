@@ -50,6 +50,17 @@ def get_database_name():
 db = client[get_database_name()]
 
 app = FastAPI()
+
+# CORS deve estar ANTES de tudo
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todas as origens
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"]
+)
+
 api_router = APIRouter(prefix="/api")
 
 @api_router.get("/")
