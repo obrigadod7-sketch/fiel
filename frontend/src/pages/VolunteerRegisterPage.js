@@ -420,18 +420,17 @@ export default function VolunteerRegisterPage() {
             <div className="space-y-4 sm:space-y-6 animate-fade-in">
               <h2 className="text-xl sm:text-2xl font-heading font-bold text-textPrimary mb-4 sm:mb-6 flex items-center gap-2">
                 <GraduationCap size={24} className="text-primary sm:w-7 sm:h-7" />
-                Formação e Experiência
+                {t('formationAndExperience')}
               </h2>
 
               <div>
                 <Label className="text-base font-bold mb-2">
-                  Formação Acadêmica
+                  {t('academicFormation')}
                 </Label>
                 <Textarea
                   value={education}
                   onChange={(e) => setEducation(e.target.value)}
-                  placeholder="Ex: Bacharel em Direito - Universidade de Paris
-Mestrado em Direitos Humanos - Sorbonne"
+                  placeholder={t('academicFormationExample')}
                   rows={3}
                   className="rounded-xl"
                 />
@@ -439,24 +438,24 @@ Mestrado em Direitos Humanos - Sorbonne"
 
               <div>
                 <Label className="text-base font-bold mb-2">
-                  Certificações e Cursos (separados por vírgula)
+                  {t('certificationsAndCourses')}
                 </Label>
                 <Input
                   value={certifications}
                   onChange={(e) => setCertifications(e.target.value)}
-                  placeholder="Ex: Certificado em Direito Internacional, Mediação de Conflitos"
+                  placeholder={t('certificationsExample')}
                   className="rounded-xl h-12"
                 />
               </div>
 
               <div>
                 <Label className="text-base font-bold mb-2">
-                  Experiência Profissional Relevante
+                  {t('relevantExperience')}
                 </Label>
                 <Textarea
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  placeholder="Descreva sua experiência ajudando migrantes, refugiados ou em sua área de atuação..."
+                  placeholder={t('experienceDescription')}
                   rows={5}
                   className="rounded-xl"
                 />
@@ -464,7 +463,7 @@ Mestrado em Direitos Humanos - Sorbonne"
 
               <div>
                 <Label className="text-base font-bold mb-2">
-                  LinkedIn (Opcional)
+                  {t('linkedinOptional')}
                 </Label>
                 <Input
                   value={linkedin}
