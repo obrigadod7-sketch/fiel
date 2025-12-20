@@ -480,18 +480,18 @@ export default function VolunteerRegisterPage() {
             <div className="space-y-4 sm:space-y-6 animate-fade-in">
               <h2 className="text-xl sm:text-2xl font-heading font-bold text-textPrimary mb-4 sm:mb-6 flex items-center gap-2">
                 <Shield size={24} className="text-primary sm:w-7 sm:h-7" />
-                Disponibilidade e Tipos de Ajuda
+                {t('availabilityAndHelpTypes')}
               </h2>
 
               <div>
                 <Label className="text-base font-bold mb-2 flex items-center gap-2">
                   <span className="text-red-500">*</span>
-                  Quando você está disponível?
+                  {t('whenAvailable')}
                 </Label>
                 <Textarea
                   value={availability}
                   onChange={(e) => setAvailability(e.target.value)}
-                  placeholder="Ex: Segundas e quartas-feiras à noite, Sábados pela manhã"
+                  placeholder={t('availabilityExample')}
                   rows={3}
                   className="rounded-xl"
                 />
@@ -502,10 +502,10 @@ export default function VolunteerRegisterPage() {
                 <Label className="text-base font-bold mb-3 flex items-center gap-2">
                   <span className="text-red-500">*</span>
                   <span className="text-2xl">🎯</span>
-                  Em quais áreas você quer ajudar?
+                  {t('whichAreasHelp')}
                 </Label>
                 <p className="text-sm text-textSecondary mb-4">
-                  Você só verá pedidos de ajuda nas categorias selecionadas abaixo.
+                  {t('onlySeeRequestsSelected')}
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {HELP_CATEGORIES.map(cat => (
@@ -532,7 +532,7 @@ export default function VolunteerRegisterPage() {
                 {helpCategories.length > 0 && (
                   <div className="mt-4 p-3 bg-green-100 rounded-xl border border-green-300">
                     <p className="text-sm text-green-800 font-medium">
-                      ✓ {helpCategories.length} categoria{helpCategories.length > 1 ? 's' : ''} selecionada{helpCategories.length > 1 ? 's' : ''}
+                      ✓ {helpCategories.length} {t('categoriesSelected', { count: helpCategories.length })}
                     </p>
                   </div>
                 )}
@@ -540,7 +540,7 @@ export default function VolunteerRegisterPage() {
 
               <div>
                 <Label className="text-base font-bold mb-3">
-                  Tipos de Ajuda que Pode Oferecer
+                  {t('typesOfHelpOffer')}
                 </Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {HELP_TYPES.map(type => (
@@ -570,13 +570,13 @@ export default function VolunteerRegisterPage() {
               <div className="bg-blue-50 p-6 rounded-2xl border-2 border-blue-200">
                 <h3 className="font-bold text-primary mb-2 flex items-center gap-2">
                   <Shield size={20} />
-                  Compromisso de Voluntário
+                  {t('volunteerCommitment')}
                 </h3>
                 <ul className="text-sm text-textSecondary space-y-2">
-                  <li>✓ Oferecer ajuda gratuita e profissional</li>
-                  <li>✓ Manter confidencialidade das informações</li>
-                  <li>✓ Respeitar a diversidade cultural</li>
-                  <li>✓ Responder mensagens em até 48 horas</li>
+                  <li>✓ {t('commitmentFree')}</li>
+                  <li>✓ {t('commitmentConfidential')}</li>
+                  <li>✓ {t('commitmentRespect')}</li>
+                  <li>✓ {t('commitmentRespond')}</li>
                 </ul>
               </div>
             </div>
