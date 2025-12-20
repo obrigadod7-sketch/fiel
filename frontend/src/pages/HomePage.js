@@ -354,21 +354,21 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20" data-testid="home-page">
+    <div className="min-h-screen bg-background pb-16 overflow-x-hidden" data-testid="home-page">
       <div className="bg-white border-b border-gray-100 sticky top-0 z-10 glassmorphism">
-        <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4">
-          <h1 className="text-xl sm:text-2xl font-heading font-bold text-textPrimary mb-3 sm:mb-4">Feed</h1>
+        <div className="px-3 sm:px-4 py-2 sm:py-4">
+          <h1 className="text-lg sm:text-2xl font-heading font-bold text-textPrimary mb-2 sm:mb-4">Feed</h1>
           
           {/* Filtros de Categoria - com scroll horizontal no mobile */}
-          <div className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
             <Button
               onClick={() => setCategoryFilter('all')}
               variant={categoryFilter === 'all' ? 'default' : 'outline'}
               size="sm"
-              className={`rounded-full whitespace-nowrap flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 ${categoryFilter === 'all' ? 'bg-primary text-white' : ''}`}
+              className={`rounded-full whitespace-nowrap flex-shrink-0 text-[10px] sm:text-sm h-7 sm:h-9 px-2 sm:px-3 ${categoryFilter === 'all' ? 'bg-primary text-white' : ''}`}
             >
-              <Filter size={14} className="mr-1" />
-              {t('all')}
+              <Filter size={12} className="sm:mr-1" />
+              <span className="hidden sm:inline">{t('all')}</span>
             </Button>
             {categories.map(cat => (
               <Button
@@ -376,21 +376,21 @@ export default function HomePage() {
                 onClick={() => setCategoryFilter(cat.value)}
                 variant={categoryFilter === cat.value ? 'default' : 'outline'}
                 size="sm"
-                className={`rounded-full whitespace-nowrap flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3 ${categoryFilter === cat.value ? 'bg-primary text-white' : ''}`}
+                className={`rounded-full whitespace-nowrap flex-shrink-0 text-[10px] sm:text-sm h-7 sm:h-9 px-1.5 sm:px-3 min-w-0 ${categoryFilter === cat.value ? 'bg-primary text-white' : ''}`}
               >
-                <span className="mr-1">{cat.icon}</span>
-                <span className="hidden sm:inline">{cat.label}</span>
+                <span>{cat.icon}</span>
+                <span className="hidden sm:inline ml-1">{cat.label}</span>
               </Button>
             ))}
           </div>
 
           {/* Filtros de Tipo */}
-          <div className="flex gap-2 mt-2 sm:mt-3 flex-wrap">
+          <div className="flex gap-1.5 sm:gap-2 mt-2 overflow-x-auto scrollbar-hide">
             <Button
               onClick={() => setTypeFilter('all')}
               variant={typeFilter === 'all' ? 'default' : 'outline'}
               size="sm"
-              className={`rounded-full text-xs sm:text-sm px-2 sm:px-3 ${typeFilter === 'all' ? 'bg-primary text-white' : ''}`}
+              className={`rounded-full text-[10px] sm:text-sm h-7 sm:h-9 px-2 sm:px-3 flex-shrink-0 ${typeFilter === 'all' ? 'bg-primary text-white' : ''}`}
             >
               {t('all')}
             </Button>
@@ -398,7 +398,7 @@ export default function HomePage() {
               onClick={() => setTypeFilter('need')}
               variant={typeFilter === 'need' ? 'default' : 'outline'}
               size="sm"
-              className={`rounded-full text-xs sm:text-sm px-2 sm:px-3 ${typeFilter === 'need' ? 'bg-green-600 text-white' : ''}`}
+              className={`rounded-full text-[10px] sm:text-sm h-7 sm:h-9 px-2 sm:px-3 flex-shrink-0 whitespace-nowrap ${typeFilter === 'need' ? 'bg-green-600 text-white' : ''}`}
             >
               {t('needsHelp')}
             </Button>
@@ -406,7 +406,7 @@ export default function HomePage() {
               onClick={() => setTypeFilter('offer')}
               variant={typeFilter === 'offer' ? 'default' : 'outline'}
               size="sm"
-              className={`rounded-full text-xs sm:text-sm px-2 sm:px-3 ${typeFilter === 'offer' ? 'bg-primary text-white' : ''}`}
+              className={`rounded-full text-[10px] sm:text-sm h-7 sm:h-9 px-2 sm:px-3 flex-shrink-0 whitespace-nowrap ${typeFilter === 'offer' ? 'bg-primary text-white' : ''}`}
             >
               {t('offersHelp')}
             </Button>
@@ -414,7 +414,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-7xl overflow-x-hidden">
+      <div className="px-2 sm:px-4 py-3 sm:py-6 max-w-7xl mx-auto overflow-x-hidden">
         <div className="flex gap-4">
           {/* Sidebar Esquerda - Anúncios e Vagas (visível apenas em desktop) */}
           <div className="hidden lg:block w-80 flex-shrink-0 space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto scroll-container pr-2">
