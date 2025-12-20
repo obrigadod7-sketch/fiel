@@ -182,16 +182,16 @@ export default function VolunteerRegisterPage() {
           className="flex items-center gap-2 text-primary hover:text-primary-hover mb-4 sm:mb-6 font-medium ml-2"
         >
           <ArrowLeft size={20} />
-          Voltar
+          {t('back')}
         </button>
 
         <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-8 md:p-12">
           <div className="text-center mb-6 sm:mb-8">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-textPrimary mb-2">
-              🤝 Cadastro de Voluntário
+              🤝 {t('volunteerRegistration')}
             </h1>
             <p className="text-sm sm:text-base text-textSecondary px-2">
-              Ajude migrantes com sua expertise profissional
+              {t('helpMigrantsWithExpertise')}
             </p>
           </div>
 
