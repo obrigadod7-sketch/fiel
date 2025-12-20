@@ -591,8 +591,8 @@ export default function VolunteerRegisterPage() {
                 className="rounded-full px-4 sm:px-8 py-3 sm:py-6 text-sm sm:text-base"
               >
                 <ArrowLeft size={18} className="mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Anterior</span>
-                <span className="sm:hidden">Voltar</span>
+                <span className="hidden sm:inline">{t('previous')}</span>
+                <span className="sm:hidden">{t('back')}</span>
               </Button>
             )}
             {step < 4 ? (
@@ -600,8 +600,8 @@ export default function VolunteerRegisterPage() {
                 onClick={nextStep}
                 className="ml-auto rounded-full px-4 sm:px-8 py-3 sm:py-6 bg-primary hover:bg-primary-hover text-sm sm:text-base"
               >
-                <span className="hidden sm:inline">Próximo</span>
-                <span className="sm:hidden">Avançar</span>
+                <span className="hidden sm:inline">{t('next')}</span>
+                <span className="sm:hidden">{t('advance')}</span>
                 <ArrowRight size={18} className="ml-1 sm:ml-2" />
               </Button>
             ) : (
@@ -610,11 +610,11 @@ export default function VolunteerRegisterPage() {
                 disabled={loading}
                 className="ml-auto rounded-full px-4 sm:px-8 py-3 sm:py-6 bg-green-600 hover:bg-green-700 text-white font-bold text-sm sm:text-base"
               >
-                {loading ? 'Cadastrando...' : (
+                {loading ? t('registering') : (
                   <>
                     <Check size={18} className="mr-1 sm:mr-2" />
-                    <span className="hidden sm:inline">Finalizar Cadastro</span>
-                    <span className="sm:hidden">Finalizar</span>
+                    <span className="hidden sm:inline">{t('finishRegistration')}</span>
+                    <span className="sm:hidden">{t('finish')}</span>
                   </>
                 )}
               </Button>
