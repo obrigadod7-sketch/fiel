@@ -119,7 +119,8 @@ class Post(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
     type: str
-    category: str
+    category: str  # Categoria principal
+    categories: List[str] = Field(default_factory=list)  # Múltiplas categorias
     title: str
     description: str
     location: Optional[dict] = None
@@ -127,7 +128,8 @@ class Post(BaseModel):
 
 class PostCreate(BaseModel):
     type: str
-    category: str
+    category: str  # Categoria principal
+    categories: Optional[List[str]] = Field(default_factory=list)  # Múltiplas categorias (até 3)
     title: str
     description: str
     location: Optional[dict] = None
