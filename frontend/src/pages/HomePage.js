@@ -383,7 +383,7 @@ export default function HomePage() {
                 title="Falar com uma pessoa real via WhatsApp"
               >
                 <span className="text-base sm:text-lg">💬</span>
-                <span className="font-black tracking-wide">Fale com uma pessoa real</span>
+                <span className="font-black tracking-wide">Fale comigo, você não está só</span>
               </a>
             </div>
           </div>
