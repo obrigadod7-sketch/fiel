@@ -32,6 +32,13 @@ export default function VolunteersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [areaFilter, setAreaFilter] = useState('all');
 
+  // Get translated professional areas
+  const PROFESSIONAL_AREAS = PROFESSIONAL_AREAS_KEYS.map(area => ({
+    ...area,
+    label: t(area.labelKey),
+    desc: t(area.descKey)
+  }));
+
   useEffect(() => {
     fetchVolunteers();
   }, []);
