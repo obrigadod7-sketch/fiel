@@ -469,6 +469,28 @@ class WatizatAPITester:
         
         return True
 
+    def run_multiple_categories_tests(self):
+        """Run tests specific to multiple categories feature"""
+        print("\n🎯 Starting Multiple Categories Feature Tests...")
+        
+        # Test 1: POST /api/posts - criar post com múltiplas categorias
+        print("\n📝 Multiple Categories Test 1: Create post with multiple categories")
+        self.test_create_post_multiple_categories()
+        
+        # Test 2: GET /api/posts - deve retornar posts com campo 'categories' array
+        print("\n📝 Multiple Categories Test 2: Get posts with categories array")
+        self.test_get_posts_with_categories()
+        
+        # Test 3: Filtro de posts por categoria deve funcionar com múltiplas categorias
+        print("\n📝 Multiple Categories Test 3: Category filtering with multiple categories")
+        self.test_category_filtering()
+        
+        # Test 4: Voluntários devem ver posts que contenham alguma das categorias que eles selecionaram
+        print("\n📝 Multiple Categories Test 4: Volunteer category matching")
+        self.test_volunteer_category_matching()
+        
+        return True
+
     def print_summary(self):
         """Print test summary"""
         print(f"\n📊 Test Summary:")
