@@ -182,7 +182,11 @@ export default function HomePage() {
     let filtered = posts;
     
     if (categoryFilter !== 'all') {
-      filtered = filtered.filter(p => p.category === categoryFilter);
+      // Filtrar posts que contenham a categoria (pode ter múltiplas)
+      filtered = filtered.filter(p => 
+        p.category === categoryFilter || 
+        (p.categories && p.categories.includes(categoryFilter))
+      );
     }
     
     if (typeFilter !== 'all') {
