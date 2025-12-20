@@ -213,6 +213,11 @@ export default function HomePage() {
       toast.error('Preencha todos os campos');
       return;
     }
+    
+    if (newPost.categories.length === 0) {
+      toast.error('Selecione pelo menos uma categoria');
+      return;
+    }
 
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, {
@@ -221,7 +226,11 @@ export default function HomePage() {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newPost)
+        body: JSON.stringify({
+          ...newPost,
+          category: newPost.categories[0], // categoria principal para compatibilidade
+          categories: newPost.categories // todas as categorias
+        })
       });
 
       if (response.ok) {
@@ -230,7 +239,7 @@ export default function HomePage() {
           toast.info('📩 Verifique suas mensagens para recursos úteis!', { duration: 5000 });
         }
         setShowCreatePost(false);
-        setNewPost({ type: user?.role === 'migrant' ? 'need' : 'offer', category: 'food', title: '', description: '', images: [], location: null });
+        setNewPost({ type: user?.role === 'migrant' ? 'need' : 'offer', categories: ['food'], title: '', description: '', images: [], location: null });
         fetchPosts();
       }
     } catch (error) {
