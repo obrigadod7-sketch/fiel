@@ -358,17 +358,38 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background pb-20" data-testid="home-page">
       <div className="bg-white border-b border-gray-100 sticky top-0 z-10 glassmorphism">
-        <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl font-heading font-bold text-textPrimary mb-4">Feed</h1>
+        <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
+          {/* Header com Feed e Botões de Emergência */}
+          <div className="flex items-center justify-between mb-2 sm:mb-4">
+            <h1 className="text-lg sm:text-2xl font-heading font-bold text-textPrimary">Feed</h1>
+            
+            {/* Botões de Emergência */}
+            <div className="flex gap-1.5">
+              <a
+                href="tel:112"
+                className="flex items-center gap-1 px-2 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-full text-xs shadow-lg animate-pulse"
+              >
+                🆘 SOS
+              </a>
+              <a
+                href="https://wa.me/5514996078465?text=Olá! Preciso de ajuda."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 px-2 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-full text-xs shadow-lg"
+              >
+                💬 <span className="hidden sm:inline">Fale comigo</span>
+              </a>
+            </div>
+          </div>
           
-          <div className="flex gap-3 overflow-x-auto pb-2">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <Button
               onClick={() => setCategoryFilter('all')}
               variant={categoryFilter === 'all' ? 'default' : 'outline'}
               size="sm"
-              className={`rounded-full whitespace-nowrap ${categoryFilter === 'all' ? 'bg-primary text-white' : ''}`}
+              className={`rounded-full whitespace-nowrap flex-shrink-0 text-xs px-2 ${categoryFilter === 'all' ? 'bg-primary text-white' : ''}`}
             >
-              <Filter size={16} className="mr-1" />
+              <Filter size={14} className="mr-1" />
               Todos
             </Button>
             {categories.map(cat => (
@@ -377,20 +398,20 @@ export default function HomePage() {
                 onClick={() => setCategoryFilter(cat.value)}
                 variant={categoryFilter === cat.value ? 'default' : 'outline'}
                 size="sm"
-                className={`rounded-full whitespace-nowrap ${categoryFilter === cat.value ? 'bg-primary text-white' : ''}`}
+                className={`rounded-full whitespace-nowrap flex-shrink-0 text-xs px-2 ${categoryFilter === cat.value ? 'bg-primary text-white' : ''}`}
               >
                 <span className="mr-1">{cat.icon}</span>
-                {cat.label}
+                <span className="hidden sm:inline">{cat.label}</span>
               </Button>
             ))}
           </div>
 
-          <div className="flex gap-2 mt-3">
+          <div className="flex gap-1.5 mt-2 overflow-x-auto scrollbar-hide">
             <Button
               onClick={() => setTypeFilter('all')}
               variant={typeFilter === 'all' ? 'default' : 'outline'}
               size="sm"
-              className={`rounded-full ${typeFilter === 'all' ? 'bg-primary text-white' : ''}`}
+              className={`rounded-full text-xs px-2 flex-shrink-0 ${typeFilter === 'all' ? 'bg-primary text-white' : ''}`}
             >
               Todos
             </Button>
@@ -398,7 +419,7 @@ export default function HomePage() {
               onClick={() => setTypeFilter('need')}
               variant={typeFilter === 'need' ? 'default' : 'outline'}
               size="sm"
-              className={`rounded-full ${typeFilter === 'need' ? 'bg-green-600 text-white' : ''}`}
+              className={`rounded-full text-xs px-2 flex-shrink-0 whitespace-nowrap ${typeFilter === 'need' ? 'bg-green-600 text-white' : ''}`}
             >
               Precisa de Ajuda
             </Button>
@@ -406,7 +427,7 @@ export default function HomePage() {
               onClick={() => setTypeFilter('offer')}
               variant={typeFilter === 'offer' ? 'default' : 'outline'}
               size="sm"
-              className={`rounded-full ${typeFilter === 'offer' ? 'bg-primary text-white' : ''}`}
+              className={`rounded-full text-xs px-2 flex-shrink-0 whitespace-nowrap ${typeFilter === 'offer' ? 'bg-primary text-white' : ''}`}
             >
               Oferece Ajuda
             </Button>
