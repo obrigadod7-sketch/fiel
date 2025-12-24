@@ -77,26 +77,24 @@ function App() {
   }
 
   return (
-    <ThemeProvider>
-      <AuthContext.Provider value={{ user, token, login, logout }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/home" />} />
-            <Route path="/auth" element={!user ? <AuthPage /> : <Navigate to="/home" />} />
-            <Route path="/home" element={user ? <HomePage /> : <Navigate to="/" />} />
-            <Route path="/chat" element={user ? <AIChat /> : <Navigate to="/" />} />
-            <Route path="/services" element={user ? <ServicesPage /> : <Navigate to="/" />} />
-            <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/" />} />
-            <Route path="/admin" element={user && user.role === 'admin' ? <AdminDashboard /> : (user ? <Navigate to="/home" /> : <Navigate to="/" />)} />
-            <Route path="/direct-chat/:userId" element={user ? <DirectChatPage /> : <Navigate to="/" />} />
-            <Route path="/volunteers" element={user ? <VolunteersPage /> : <Navigate to="/" />} />
-            <Route path="/nearby" element={user ? <NearbyHelpersPage /> : <Navigate to="/" />} />
-            <Route path="/map" element={user ? <MapPage /> : <Navigate to="/" />} />
-            <Route path="/volunteer-register" element={<VolunteerRegisterPage />} />
-          </Routes>
-        </BrowserRouter>
-      </AuthContext.Provider>
-    </ThemeProvider>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/home" />} />
+          <Route path="/auth" element={!user ? <AuthPage /> : <Navigate to="/home" />} />
+          <Route path="/home" element={user ? <HomePage /> : <Navigate to="/" />} />
+          <Route path="/chat" element={user ? <AIChat /> : <Navigate to="/" />} />
+          <Route path="/services" element={user ? <ServicesPage /> : <Navigate to="/" />} />
+          <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/" />} />
+          <Route path="/admin" element={user && user.role === 'admin' ? <AdminDashboard /> : (user ? <Navigate to="/home" /> : <Navigate to="/" />)} />
+          <Route path="/direct-chat/:userId" element={user ? <DirectChatPage /> : <Navigate to="/" />} />
+          <Route path="/volunteers" element={user ? <VolunteersPage /> : <Navigate to="/" />} />
+          <Route path="/nearby" element={user ? <NearbyHelpersPage /> : <Navigate to="/" />} />
+          <Route path="/map" element={user ? <MapPage /> : <Navigate to="/" />} />
+          <Route path="/volunteer-register" element={<VolunteerRegisterPage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthContext.Provider>
   );
 }
 
