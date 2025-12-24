@@ -124,7 +124,12 @@ export default function HomePage() {
     title: '',
     description: '',
     images: [],
-    location: null
+    location: null,
+    // Campos extras para emprego
+    job_languages: [],
+    job_availability: '',
+    job_experience: '',
+    job_looking_for: ''
   });
   const [showComments, setShowComments] = useState({});
   const [comments, setComments] = useState({});
