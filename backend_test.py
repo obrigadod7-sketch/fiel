@@ -444,9 +444,9 @@ class WatizatAPITester:
         if not self.test_user_registration():
             print("⚠️  Registration failed, some tests may not work")
         
-        # Test 6: POST /api/auth/login
-        print("\n📝 Step 6: Test user login")
-        self.test_user_login()
+        # Test 6: Admin login with provided credentials
+        print("\n📝 Step 6: Test admin login")
+        self.test_admin_login()
         
         # Test 7: POST /api/ai/chat (with OpenAI)
         print("\n📝 Step 7: Test AI chat with OpenAI")
