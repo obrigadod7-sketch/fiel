@@ -90,6 +90,7 @@ function App() {
           <Route path="/admin" element={user && user.role === 'admin' ? <AdminDashboard /> : (user ? <Navigate to="/home" /> : <Navigate to="/" />)} />
           <Route path="/direct-chat/:userId" element={user ? <DirectChatPage /> : <Navigate to="/" />} />
           <Route path="/volunteers" element={user ? <VolunteersPage /> : <Navigate to="/" />} />
+          <Route path="/jobs" element={user ? <JobsPage /> : <Navigate to="/" />} />
           <Route path="/nearby" element={user ? <NearbyHelpersPage /> : <Navigate to="/" />} />
           <Route path="/map" element={user ? <MapPage /> : <Navigate to="/" />} />
           <Route path="/volunteer-register" element={<VolunteerRegisterPage />} />
