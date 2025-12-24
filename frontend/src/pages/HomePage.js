@@ -905,99 +905,109 @@ export default function HomePage() {
               <div 
                 key={post.id} 
                 data-testid="post-card"
-                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-card card-hover overflow-hidden"
+                className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all cursor-pointer"
+                onClick={() => navigate(`/direct-chat/${post.user_id}`)}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                      <User size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-textPrimary">{post.user?.name}</p>
-                      <p className="text-sm text-textMuted capitalize">{post.user?.role}</p>
-                    </div>
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryStyle(post.category)} flex items-center gap-1`}>
-                    <span>{getCategoryIcon(post.category)}</span>
-                    {categories.find(c => c.value === post.category)?.label}
-                  </span>
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-textPrimary mb-2 break-words">{post.title}</h3>
-                <p className="text-sm sm:text-base text-textSecondary mb-3 leading-relaxed break-words">{post.description}</p>
-
+                {/* Imagem Principal (se houver) */}
                 {post.images && post.images.length > 0 && (
-                  <div className={`mb-3 ${post.images.length === 1 ? '' : 'grid grid-cols-2 gap-2'}`}>
-                    {post.images.map((img, idx) => (
-                      <div key={idx} className={`${post.images.length === 1 ? 'w-full' : ''} rounded-2xl overflow-hidden bg-gray-100`}>
-                        <img 
-                          src={img} 
-                          alt="" 
-                          className={`w-full ${post.images.length === 1 ? 'max-h-[500px] object-contain' : 'h-48 object-cover'} rounded-2xl`}
-                          onClick={() => window.open(img, '_blank')}
-                          style={{ cursor: 'pointer' }}
-                        />
+                  <div className="relative">
+                    <img 
+                      src={post.images[0]} 
+                      alt="" 
+                      className="w-full h-48 object-cover"
+                    />
+                    {post.images.length > 1 && (
+                      <span className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                        +{post.images.length - 1} fotos
+                      </span>
+                    )}
+                    {/* Badge de tipo */}
+                    <span className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold ${
+                      post.type === 'need' 
+                        ? 'bg-green-500 text-white' 
+                        : 'bg-blue-500 text-white'
+                    }`}>
+                      {post.type === 'need' ? '🆘 Precisa de Ajuda' : '🤝 Oferece Ajuda'}
+                    </span>
+                  </div>
+                )}
+
+                <div className="p-4">
+                  {/* Header com Avatar e Info */}
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 ${
+                      post.type === 'need' 
+                        ? 'bg-gradient-to-br from-green-400 to-green-600' 
+                        : 'bg-gradient-to-br from-blue-400 to-blue-600'
+                    }`}>
+                      {post.user?.name?.charAt(0) || 'U'}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-bold text-gray-800">{post.user?.name || 'Usuário'}</h3>
+                        {/* Avaliação */}
+                        <div className="flex items-center gap-1">
+                          <span className="text-yellow-500">★</span>
+                          <span className="text-sm font-medium text-gray-700">5.0</span>
+                        </div>
                       </div>
-                    ))}
+                      <p className="text-sm text-primary font-medium truncate">{post.title}</p>
+                    </div>
                   </div>
-                )}
 
-                {post.location && (
-                  <div className="flex items-center gap-2 text-sm text-textMuted mb-3 p-2 bg-blue-50 rounded-lg">
-                    <MapPin size={16} className="text-primary" />
-                    <span>{post.location.address || 'Localização disponível'}</span>
-                  </div>
-                )}
+                  {/* Descrição */}
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">{post.description}</p>
 
-                {/* Info do Post - Mobile Friendly */}
-                <div className="border-t pt-3 mt-3 space-y-3">
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-textMuted flex-wrap">
-                    <span className="flex items-center gap-1">
-                      <Clock size={14} />
+                  {/* Informações de Emprego (se houver) */}
+                  {post.job_languages && post.job_languages.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {post.job_languages.map(lang => (
+                        <span key={lang} className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
+                          🗣️ {lang}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {post.job_availability && (
+                    <span className="inline-block px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full mb-2">
+                      🕐 {post.job_availability === 'full_time' ? 'Tempo Integral' : 
+                          post.job_availability === 'part_time' ? 'Meio Período' :
+                          post.job_availability === 'flexible' ? 'Flexível' : 'Finais de Semana'}
+                    </span>
+                  )}
+
+                  {/* Footer com Categoria, Localização e Data */}
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                    <div className="flex items-center gap-3 text-xs text-gray-500">
+                      <span className={`px-2 py-1 rounded-full flex items-center gap-1 ${getCategoryStyle(post.category)}`}>
+                        {getCategoryIcon(post.category)}
+                        {categories.find(c => c.value === post.category)?.label}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <MapPin size={12} />
+                        Paris
+                      </span>
+                    </div>
+                    <span className="text-xs text-gray-400">
                       {new Date(post.created_at).toLocaleDateString('pt-BR')}
                     </span>
-                    {post.type === 'need' && (
-                      <span className="text-green-600 font-medium text-xs">Precisa de ajuda</span>
-                    )}
-                    {post.type === 'offer' && (
-                      <span className="text-primary font-medium text-xs">Oferece ajuda</span>
-                    )}
                   </div>
-                  
-                  {/* Botões em Grid Responsivo */}
-                  <div className="grid grid-cols-2 sm:flex gap-2">
-                    {post.type === 'need' && (
-                      <Button
-                        onClick={() => openResourcesModal(post.category)}
-                        size="sm"
-                        variant="outline"
-                        className="rounded-full border-primary text-primary hover:bg-primary hover:text-white text-xs sm:text-sm px-3 py-2 w-full sm:w-auto"
-                      >
-                        <Info size={14} className="sm:mr-1" />
-                        <span className="hidden sm:inline ml-1">Ver Recursos</span>
-                        <span className="sm:hidden ml-1">Recursos</span>
-                      </Button>
-                    )}
-                    <Button
-                      onClick={() => toggleComments(post.id)}
-                      size="sm"
-                      variant="outline"
-                      className="rounded-full text-xs sm:text-sm px-3 py-2 w-full sm:w-auto"
-                    >
-                      <MessageSquare size={14} className="sm:mr-1" />
-                      <span className="ml-1">{showComments[post.id] ? 'Ocultar' : 'Comentários'}</span>
-                    </Button>
-                    {post.user_id !== user.id && post.can_help && (
-                      <Button
-                        onClick={() => navigate(`/direct-chat/${post.user_id}`)}
-                        size="sm"
-                        className="rounded-full bg-primary hover:bg-primary-hover text-white text-xs sm:text-sm px-3 py-2 w-full sm:w-auto col-span-2 sm:col-span-1"
-                      >
-                        <MessageCircle size={14} className="sm:mr-1" />
-                        <span className="ml-1">Conversar</span>
-                      </Button>
-                    )}
-                  </div>
+
+                  {/* Botão Contatar */}
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/direct-chat/${post.user_id}`);
+                    }}
+                    className="w-full mt-3 rounded-full bg-primary hover:bg-primary-hover text-white font-bold"
+                  >
+                    <MessageCircle size={16} className="mr-2" />
+                    Contatar
+                  </Button>
                 </div>
+              </div>
+            ))}
 
                 {showComments[post.id] && (
                   <div className="mt-4 pt-4 border-t space-y-3">
