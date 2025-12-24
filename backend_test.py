@@ -200,8 +200,8 @@ class WatizatAPITester:
             return True
         return False
 
-    def test_ai_chat_mocked(self):
-        """Test POST /api/ai/chat endpoint (should return mocked response)"""
+    def test_ai_chat_with_openai(self):
+        """Test POST /api/ai/chat endpoint (should return ai_enabled: true with OpenAI key)"""
         if not self.token:
             self.log_test("AI Chat - No Token", False, "No authentication token available")
             return False
@@ -212,22 +212,24 @@ class WatizatAPITester:
         }
         
         success, response = self.run_test(
-            "AI Chat (Mocked)",
+            "AI Chat with OpenAI",
             "POST",
             "ai/chat",
             200,
             data=chat_data
         )
         
-        if success and 'response' in response:
-            # Check if it's the mocked response
-            response_text = response['response']
-            if "assistente de IA do Watizat está temporariamente indisponível" in response_text:
-                self.log_test("AI Chat Mocked Response", True, "Correctly returned mocked response")
+        if success and 'ai_enabled' in response:
+            ai_enabled = response['ai_enabled']
+            if ai_enabled:
+                self.log_test("AI Chat OpenAI Integration", True, "AI is enabled and working with OpenAI")
                 return True
             else:
-                self.log_test("AI Chat Mocked Response", False, f"Unexpected response: {response_text[:100]}")
-        return False
+                self.log_test("AI Chat OpenAI Integration", False, "AI is disabled - OpenAI key may not be working")
+                return False
+        else:
+            self.log_test("AI Chat OpenAI Integration", False, "Response missing ai_enabled field")
+            return False
 
     def test_create_post_multiple_categories(self):
         """Test POST /api/posts - criar post com múltiplas categorias"""
