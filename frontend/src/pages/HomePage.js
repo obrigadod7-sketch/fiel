@@ -623,37 +623,6 @@ export default function HomePage() {
               }}
             >
               <div className="space-y-6 pr-2">
-                {/* Tipo de Post */}
-                <div className="bg-gray-50 p-4 rounded-2xl">
-                  <Label className="text-base font-bold mb-3 block">📝 Tipo de Publicação</Label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setNewPost({...newPost, type: 'need'})}
-                      className={`p-4 rounded-xl border-2 transition-all text-center ${
-                        newPost.type === 'need'
-                          ? 'bg-green-100 border-green-500 text-green-700'
-                          : 'bg-white border-gray-200 hover:border-green-300'
-                      }`}
-                    >
-                      <span className="text-2xl block mb-1">🆘</span>
-                      <span className="font-bold text-sm">Preciso de Ajuda</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setNewPost({...newPost, type: 'offer'})}
-                      className={`p-4 rounded-xl border-2 transition-all text-center ${
-                        newPost.type === 'offer'
-                          ? 'bg-blue-100 border-blue-500 text-blue-700'
-                          : 'bg-white border-gray-200 hover:border-blue-300'
-                      }`}
-                    >
-                      <span className="text-2xl block mb-1">🤝</span>
-                      <span className="font-bold text-sm">Quero Ajudar</span>
-                    </button>
-                  </div>
-                </div>
-
                 {/* Categoria */}
                 <div className="bg-gray-50 p-5 rounded-2xl">
                   <Label className="text-base font-bold mb-3 block">📂 Selecione a Categoria</Label>
