@@ -668,6 +668,95 @@ export default function HomePage() {
                   <p className="text-xs text-textMuted mt-2">Quanto mais detalhes, melhor!</p>
                 </div>
 
+                {/* Formulário Especial para Emprego */}
+                {newPost.category === 'work' && newPost.type === 'need' && (
+                  <div className="bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-300 p-5 rounded-2xl space-y-4">
+                    <Label className="text-base font-bold block flex items-center gap-2">
+                      <span className="text-2xl">💼</span>
+                      <span>Informações para Emprego</span>
+                    </Label>
+                    <p className="text-xs text-yellow-700 -mt-2">Preencha para aumentar suas chances</p>
+
+                    {/* Idiomas */}
+                    <div>
+                      <Label className="text-sm font-bold mb-2 block">🗣️ Idiomas que você fala</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {['Português', 'Francês', 'Inglês', 'Espanhol', 'Árabe', 'Outro'].map(lang => (
+                          <button
+                            key={lang}
+                            type="button"
+                            onClick={() => {
+                              const langs = newPost.job_languages || [];
+                              if (langs.includes(lang)) {
+                                setNewPost({...newPost, job_languages: langs.filter(l => l !== lang)});
+                              } else {
+                                setNewPost({...newPost, job_languages: [...langs, lang]});
+                              }
+                            }}
+                            className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
+                              (newPost.job_languages || []).includes(lang)
+                                ? 'bg-yellow-500 text-white'
+                                : 'bg-white border border-gray-300 text-gray-700 hover:border-yellow-500'
+                            }`}
+                          >
+                            {lang}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Disponibilidade */}
+                    <div>
+                      <Label className="text-sm font-bold mb-2 block">🕐 Disponibilidade de Horário</Label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {[
+                          { value: 'full_time', label: 'Tempo Integral' },
+                          { value: 'part_time', label: 'Meio Período' },
+                          { value: 'flexible', label: 'Horário Flexível' },
+                          { value: 'weekends', label: 'Finais de Semana' }
+                        ].map(opt => (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() => setNewPost({...newPost, job_availability: opt.value})}
+                            className={`p-3 rounded-xl text-sm font-medium transition-all ${
+                              newPost.job_availability === opt.value
+                                ? 'bg-yellow-500 text-white'
+                                : 'bg-white border border-gray-300 text-gray-700 hover:border-yellow-500'
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Experiência */}
+                    <div>
+                      <Label className="text-sm font-bold mb-2 block">📋 Experiência Profissional</Label>
+                      <Textarea
+                        value={newPost.job_experience || ''}
+                        onChange={(e) => setNewPost({...newPost, job_experience: e.target.value})}
+                        rows={3}
+                        placeholder="Ex: Trabalhei 2 anos como garçom em restaurante, 1 ano como auxiliar de limpeza..."
+                        className="rounded-xl text-sm"
+                      />
+                    </div>
+
+                    {/* O que procura */}
+                    <div>
+                      <Label className="text-sm font-bold mb-2 block">🎯 O que você realmente procura?</Label>
+                      <Textarea
+                        value={newPost.job_looking_for || ''}
+                        onChange={(e) => setNewPost({...newPost, job_looking_for: e.target.value})}
+                        rows={3}
+                        placeholder="Ex: Procuro um emprego como cozinheiro ou auxiliar de cozinha, tenho experiência e disponibilidade imediata..."
+                        className="rounded-xl text-sm"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 {/* Mídia e Localização */}
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 p-5 rounded-2xl space-y-4">
                   <Label className="text-base font-bold block flex items-center gap-2">
