@@ -1008,53 +1008,6 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
-
-                {showComments[post.id] && (
-                  <div className="mt-4 pt-4 border-t space-y-3">
-                    {comments[post.id] && comments[post.id].length > 0 ? (
-                      comments[post.id].map((comment) => (
-                        <div key={comment.id} className="flex gap-3 p-3 bg-gray-50 rounded-2xl">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
-                            <User size={16} className="text-white" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-textPrimary">{comment.user?.name}</p>
-                            <p className="text-sm text-textSecondary">{comment.comment}</p>
-                            <p className="text-xs text-textMuted mt-1">
-                              {new Date(comment.created_at).toLocaleString('pt-BR')}
-                            </p>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-sm text-textMuted text-center py-2">Nenhum comentário ainda</p>
-                    )}
-
-                    <div className="flex gap-2 mt-3">
-                      <Input
-                        placeholder="Escreva um comentário..."
-                        value={commentingOn === post.id ? newComment : ''}
-                        onChange={(e) => {
-                          setCommentingOn(post.id);
-                          setNewComment(e.target.value);
-                        }}
-                        className="rounded-full"
-                        data-testid="comment-input"
-                      />
-                      <Button
-                        onClick={() => addComment(post.id)}
-                        disabled={!newComment.trim()}
-                        size="sm"
-                        className="rounded-full bg-primary hover:bg-primary-hover text-white"
-                        data-testid="submit-comment-button"
-                      >
-                        <Send size={16} />
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
           </div>
         )}
           </div>
