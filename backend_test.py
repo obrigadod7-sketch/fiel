@@ -157,47 +157,30 @@ class WatizatAPITester:
             return True
         return False
 
-    def test_user_login(self):
-        """Test POST /api/auth/login endpoint"""
-        # Create a test user first
-        timestamp = datetime.now().strftime('%H%M%S')
-        test_user_data = {
-            "email": f"test_login_{timestamp}@example.com",
-            "password": "TestPass123!",
-            "name": f"Test Login {timestamp}",
-            "role": "migrant",
-            "languages": ["pt", "fr"]
-        }
-        
-        # Register first
-        success, response = self.run_test(
-            "Register User for Login Test",
-            "POST",
-            "auth/register",
-            200,
-            data=test_user_data
-        )
-        
-        if not success:
-            return False
-        
-        # Now test login
+    def test_admin_login(self):
+        """Test login with admin credentials from review request"""
         login_data = {
-            "email": test_user_data["email"],
-            "password": test_user_data["password"]
+            "email": "admin@watizat.com",
+            "password": "admin123"
         }
         
         success, response = self.run_test(
-            "User Login",
+            "Admin Login",
             "POST", 
             "auth/login",
             200,
             data=login_data
         )
         
-        if success and 'token' in response:
-            # Don't overwrite the main token, just verify login works
-            return True
+        if success and 'token' in response and 'user' in response:
+            user = response['user']
+            if user.get('role') == 'admin':
+                self.log_test("Admin Login Validation", True, f"Successfully logged in as admin: {user.get('name')}")
+                # Store admin token for further tests
+                self.admin_token = response['token']
+                return True
+            else:
+                self.log_test("Admin Login Validation", False, f"User role is {user.get('role')}, expected admin")
         return False
 
     def test_ai_chat_with_openai(self):
