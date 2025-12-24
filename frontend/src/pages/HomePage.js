@@ -668,8 +668,8 @@ export default function HomePage() {
                   <p className="text-xs text-textMuted mt-2">Quanto mais detalhes, melhor!</p>
                 </div>
 
-                {/* Formulário Especial para Emprego */}
-                {newPost.category === 'work' && (
+                {/* Formulário Especial para Emprego - Apenas quando categoria é Trabalho e tipo é Preciso de Ajuda */}
+                {newPost.category === 'work' && newPost.type === 'need' && (
                   <div className="bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-300 p-5 rounded-2xl space-y-4">
                     <Label className="text-base font-bold block flex items-center gap-2">
                       <span className="text-2xl">💼</span>
