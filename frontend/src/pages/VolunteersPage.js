@@ -6,12 +6,12 @@ import BottomNav from '../components/BottomNav';
 import { MessageCircle, Plus, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-// Categorias principais (4 no grid)
+// Categorias principais (4 no grid) - Usando as que têm posts
 const MAIN_CATEGORIES = [
-  { value: 'social', label: 'Social', icon: '🤝' },
-  { value: 'clothes', label: 'Roupas', icon: '👕' },
-  { value: 'furniture', label: 'Móveis', icon: '🪑' },
-  { value: 'transport', label: 'Transporte', icon: '🚗' }
+  { value: 'housing', label: 'Moradia', icon: '🏠' },
+  { value: 'work', label: 'Trabalho', icon: '💼' },
+  { value: 'food', label: 'Alimentação', icon: '🍽️' },
+  { value: 'education', label: 'Educação', icon: '📚' }
 ];
 
 // Todas as categorias
