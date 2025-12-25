@@ -460,7 +460,7 @@ export default function HomePage() {
             <DialogTrigger asChild>
               <Button 
                 data-testid="create-post-button"
-                className="w-full rounded-full py-6 mb-6 bg-green-600 hover:bg-green-700 text-white font-bold shadow-lg"
+                className="w-full rounded-full py-6 mb-6 bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-lg"
               >
                 <Plus size={20} className="mr-2" />
                 🆘 Preciso de Ajuda
