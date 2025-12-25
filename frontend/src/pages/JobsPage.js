@@ -339,11 +339,15 @@ export default function JobsPage() {
                 />
               </div>
               <Button 
-                onClick={searchAllPlatforms}
+                onClick={handleSearch}
+                disabled={searchLoading}
                 className="h-12 px-6 rounded-xl bg-yellow-500 hover:bg-yellow-600 text-black font-bold"
               >
-                <Globe size={18} className="mr-2" />
-                Buscar em Tudo
+                {searchLoading ? (
+                  <>🔄 Buscando...</>
+                ) : (
+                  <><Search size={18} className="mr-2" /> Buscar Vagas</>
+                )}
               </Button>
             </div>
             
