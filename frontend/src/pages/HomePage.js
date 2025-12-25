@@ -504,30 +504,9 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-7xl overflow-x-hidden">
-        <div className="flex gap-4">
-          {/* Sidebar Esquerda - Anúncios e Vagas (visível apenas em desktop) */}
-          <div className="hidden lg:block w-80 flex-shrink-0 space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto scroll-container pr-2">
-            {/* Header da Sidebar */}
-            <div className="bg-gradient-to-r from-primary to-secondary text-white rounded-2xl p-4 shadow-lg">
-              <h3 className="font-bold text-sm">📢 Oportunidades & Inspiração</h3>
-              <p className="text-xs text-white/80 mt-1">Vagas de emprego e mensagens para você</p>
-            </div>
-
-            {/* Renderizar todos os itens da sidebar */}
-            {advertisements.map((item, idx) => {
-              // Vaga de Emprego
-              if (item.type === 'job' || item.item_type === 'job') {
-                return (
-                  <div key={item.id || idx} className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-md overflow-hidden border-2 border-blue-200 hover:border-blue-400 transition-all">
-                    {item.image_url && (
-                      <img 
-                        src={item.image_url} 
-                        alt={item.title} 
-                        className="w-full h-28 object-cover"
-                      />
-                    )}
-                    <div className="p-4">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-3xl overflow-x-hidden">
+        {/* Conteúdo Principal - Feed CENTRALIZADO */}
+        <div className="w-full">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-xs font-bold px-2 py-1 bg-blue-600 text-white rounded-full">💼 VAGA</span>
                         {item.source && (
