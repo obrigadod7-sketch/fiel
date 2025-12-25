@@ -402,7 +402,7 @@ export default function JobsPage() {
             <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 mt-6">
               <h3 className="font-bold text-yellow-800 mb-2">💡 Dicas para Encontrar Emprego</h3>
               <ul className="text-sm text-yellow-700 space-y-1">
-                <li>• Use palavras-chave específicas (ex: "aide cuisine" em vez de apenas "cuisine")</li>
+                <li>• Use palavras-chave específicas (ex: &quot;aide cuisine&quot; em vez de apenas &quot;cuisine&quot;)</li>
                 <li>• Cadastre-se nas plataformas para receber alertas de vagas</li>
                 <li>• O <strong>Pôle Emploi</strong> é a agência oficial de emprego na França</li>
                 <li>• Mantenha seu CV atualizado em francês</li>
