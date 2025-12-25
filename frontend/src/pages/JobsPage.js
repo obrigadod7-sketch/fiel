@@ -82,10 +82,10 @@ export default function JobsPage() {
   const displayData = viewMode === 'offers' ? jobOffers : jobSeekers;
 
   return (
-    <div className="min-h-screen bg-blue-50 pb-20" data-testid="jobs-page">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white pb-20" data-testid="jobs-page">
       {/* Header */}
       <div className="bg-white border-b shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto max-w-4xl px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-xl font-bold text-gray-800">💼 Trabalhos & Serviços</h1>
             <Button
@@ -140,7 +140,7 @@ export default function JobsPage() {
       </div>
 
       {/* Conteúdo Principal */}
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto max-w-4xl px-4 py-4">
         {/* Toggle Ofertas / Procuras */}
         <div className="flex gap-2 mb-4">
           <Button
