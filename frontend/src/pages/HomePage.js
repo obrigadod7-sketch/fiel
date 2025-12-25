@@ -861,6 +861,17 @@ export default function HomePage() {
             </div>
           </DialogContent>
         </Dialog>
+        ) : (
+          /* Botão para Helpers/Admins - Redireciona para página Ajudar */
+          <Button 
+            data-testid="create-post-button"
+            onClick={() => navigate('/volunteers')}
+            className="w-full rounded-full py-6 mb-6 bg-primary hover:bg-primary-hover text-white font-bold shadow-lg"
+          >
+            <Users size={20} className="mr-2" />
+            🤝 Quero Ajudar
+          </Button>
+        )}
 
         {/* Modal de Recursos */}
         <Dialog open={showResourcesModal} onOpenChange={setShowResourcesModal}>
