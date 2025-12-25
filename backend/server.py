@@ -20,6 +20,7 @@ import math
 from urllib.parse import urlparse
 import aiohttp
 import re
+import random
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
