@@ -321,7 +321,7 @@ export default function NearbyHelpersPage() {
         const locationIcon = window.L.divIcon({
           className: 'custom-marker',
           html: `
-            <div style="background: ${colorHex}; width: 36px; height: 36px; border-radius: 10px; border: 3px solid ${isNight ? '#1e293b' : 'white'}; box-shadow: 0 4px 12px ${colorHex}66; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+            <div style="background: ${colorHex}; width: 36px; height: 36px; border-radius: 10px; border: 3px solid white; box-shadow: 0 4px 12px ${colorHex}66; display: flex; align-items: center; justify-content: center; font-size: 16px;">
               ${location.icon || '📍'}
             </div>
           `,
@@ -333,11 +333,11 @@ export default function NearbyHelpersPage() {
           .addTo(map);
 
         marker.bindPopup(`
-          <div style="text-align: center; min-width: 200px; padding: 8px; background: ${isNight ? '#1e293b' : 'white'}; color: ${isNight ? 'white' : '#1f2937'};">
+          <div style="text-align: center; min-width: 200px; padding: 8px; background: white; color: #1f2937;">
             <strong style="font-size: 13px;">${location.name}</strong><br/>
-            <span style="color: ${isNight ? '#94a3b8' : '#6b7280'}; font-size: 11px;">📍 ${location.address}</span><br/>
-            ${location.phone ? `<span style="color: ${isNight ? '#94a3b8' : '#6b7280'}; font-size: 11px;">📞 ${location.phone}</span><br/>` : ''}
-            ${location.hours ? `<span style="color: ${isNight ? '#94a3b8' : '#6b7280'}; font-size: 11px;">🕐 ${location.hours}</span><br/>` : ''}
+            <span style="color: #6b7280; font-size: 11px;">📍 ${location.address}</span><br/>
+            ${location.phone ? `<span style="color: #6b7280; font-size: 11px;">📞 ${location.phone}</span><br/>` : ''}
+            ${location.hours ? `<span style="color: #6b7280; font-size: 11px;">🕐 ${location.hours}</span><br/>` : ''}
             <span style="color: #22c55e; font-size: 12px; font-weight: bold;">📍 ${location.distance} km</span>
           </div>
         `);
@@ -353,8 +353,8 @@ export default function NearbyHelpersPage() {
 
     // Círculo de raio
     window.L.circle([myLocation.lat, myLocation.lng], {
-      color: isNight ? '#22d3ee' : '#3b82f6',
-      fillColor: isNight ? '#22d3ee' : '#3b82f6',
+      color: '#3b82f6',
+      fillColor: '#3b82f6',
       fillOpacity: 0.1,
       weight: 2,
       dashArray: '5, 10',
