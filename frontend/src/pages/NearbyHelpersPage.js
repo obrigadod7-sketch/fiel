@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 const HELP_CATEGORIES = [
   { value: 'all', label: 'Todas as categorias', icon: '🌐' },
+  { value: 'jobs', label: '💼 Vagas de Emprego', icon: '💼' },
   { value: 'food', label: 'Alimentação', icon: '🍽️' },
   { value: 'legal', label: 'Jurídico', icon: '⚖️' },
   { value: 'health', label: 'Saúde', icon: '🏥' },
