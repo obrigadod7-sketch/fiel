@@ -509,6 +509,36 @@ class WatizatAPITester:
         
         return True
 
+    def run_mural_tests(self):
+        """Run tests specific to mural de mensagens feature"""
+        print("\n📋 Starting Mural de Mensagens Tests...")
+        
+        # Test 1: GET /api/mural - get existing messages
+        print("\n📝 Mural Test 1: Get existing mural messages")
+        get_success, existing_messages = self.test_mural_get()
+        
+        # Test 2: POST /api/mural - create new message
+        print("\n📝 Mural Test 2: Create new mural message")
+        test_name = f"TestUser_{datetime.now().strftime('%H%M%S')}"
+        test_message = f"Test message from backend test at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        
+        post_success, post_response = self.test_mural_post(test_name, test_message)
+        
+        # Test 3: GET /api/mural again to verify the new message was added
+        if post_success:
+            print("\n📝 Mural Test 3: Verify message was saved")
+            get_success_2, new_messages = self.test_mural_get()
+            if get_success_2 and len(new_messages) > len(existing_messages):
+                self.log_test("Mural Message Persistence", True, "New message successfully saved and retrieved")
+            else:
+                self.log_test("Mural Message Persistence", False, "Message may not have been properly saved")
+        
+        # Test 4: Check render.yaml configuration
+        print("\n📝 Mural Test 4: Check render.yaml configuration")
+        self.test_render_yaml_config()
+        
+        return True
+
     def run_multiple_categories_tests(self):
         """Run tests specific to multiple categories feature"""
         print("\n🎯 Starting Multiple Categories Feature Tests...")
