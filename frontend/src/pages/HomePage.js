@@ -690,6 +690,49 @@ export default function HomePage() {
                     </Label>
                     <p className="text-xs text-yellow-700 -mt-2">Preencha para aumentar suas chances</p>
 
+                    {/* Tipo de Trabalho */}
+                    <div>
+                      <Label className="text-sm font-bold mb-2 block">🔧 Tipo de Trabalho que Procura</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { value: 'bricolage', label: '🔧 Bricolagem', emoji: '🔧' },
+                          { value: 'cleaning', label: '🧹 Limpeza', emoji: '🧹' },
+                          { value: 'transport', label: '🚗 Transporte', emoji: '🚗' },
+                          { value: 'food', label: '🍽️ Alimentação/Cozinha', emoji: '🍽️' },
+                          { value: 'care', label: '💆 Bem-estar', emoji: '💆' },
+                          { value: 'education', label: '📚 Aulas/Educação', emoji: '📚' },
+                          { value: 'tech', label: '💻 Informática', emoji: '💻' },
+                          { value: 'childcare', label: '👶 Cuidar de Crianças', emoji: '👶' },
+                          { value: 'garden', label: '🌱 Jardinagem', emoji: '🌱' },
+                          { value: 'moving', label: '📦 Mudança', emoji: '📦' },
+                          { value: 'security', label: '🛡️ Segurança', emoji: '🛡️' },
+                          { value: 'construction', label: '🏗️ Construção', emoji: '🏗️' },
+                          { value: 'other', label: '➕ Outros', emoji: '➕' }
+                        ].map(job => (
+                          <button
+                            key={job.value}
+                            type="button"
+                            onClick={() => {
+                              const jobs = newPost.job_types || [];
+                              if (jobs.includes(job.value)) {
+                                setNewPost({...newPost, job_types: jobs.filter(j => j !== job.value)});
+                              } else {
+                                setNewPost({...newPost, job_types: [...jobs, job.value]});
+                              }
+                            }}
+                            className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
+                              (newPost.job_types || []).includes(job.value)
+                                ? 'bg-yellow-500 text-white shadow-md'
+                                : 'bg-white border border-gray-300 text-gray-700 hover:border-yellow-500'
+                            }`}
+                          >
+                            {job.label}
+                          </button>
+                        ))}
+                      </div>
+                      <p className="text-xs text-yellow-600 mt-2">Selecione um ou mais tipos de trabalho</p>
+                    </div>
+
                     {/* Idiomas */}
                     <div>
                       <Label className="text-sm font-bold mb-2 block">🗣️ Idiomas que você fala</Label>
