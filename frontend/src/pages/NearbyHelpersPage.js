@@ -820,6 +820,91 @@ export default function NearbyHelpersPage() {
                   )}
                 </div>
               ))}
+
+              {/* Job Listings */}
+              {(viewMode === 'all' || viewMode === 'jobs') && jobLocations.map(job => (
+                <div
+                  key={job.id}
+                  className={`bg-white border-gray-200 rounded-2xl p-4 border-2 transition-all cursor-pointer ${
+                    selectedJob?.id === job.id 
+                      ? 'border-blue-600 shadow-lg' 
+                      : 'border-transparent hover:border-blue-400'
+                  }`}
+                  onClick={() => {
+                    setSelectedJob(job);
+                    setSelectedLocation(null);
+                    setSelectedHelper(null);
+                  }}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center flex-shrink-0">
+                      <span className="text-2xl">💼</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-bold text-sm truncate text-gray-800">{job.name}</h3>
+                        <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full whitespace-nowrap">
+                          {job.distance || '?'} km
+                        </span>
+                      </div>
+                      <p className="text-xs mt-1 text-gray-600">
+                        🏢 {job.company || 'Empresa'}
+                      </p>
+                      <p className="text-xs mt-0.5 truncate text-gray-600">
+                        📍 {job.address}
+                      </p>
+                      {(job.salary_min || job.salary_max) && (
+                        <p className="text-xs mt-1 text-green-600 font-medium">
+                          💰 {job.salary_min || ''}{job.salary_min && job.salary_max ? '-' : ''}{job.salary_max || ''} EUR
+                        </p>
+                      )}
+                      <div className="flex gap-1 mt-2">
+                        {job.is_remote && (
+                          <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full">
+                            🏠 Remoto
+                          </span>
+                        )}
+                        {job.employment_type && (
+                          <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">
+                            {job.employment_type}
+                          </span>
+                        )}
+                        <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">
+                          💼 Vaga
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {selectedJob?.id === job.id && (
+                    <div className="mt-3 pt-3 border-t border-opacity-20 flex gap-2">
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(job.url, '_blank');
+                        }}
+                        size="sm"
+                        className="flex-1 rounded-xl bg-blue-600 hover:bg-blue-700"
+                      >
+                        <ExternalLink size={16} className="mr-1" />
+                        Candidatar-se
+                      </Button>
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openGoogleMaps({lat: job.lat, lng: job.lng});
+                        }}
+                        size="sm"
+                        variant="outline"
+                        className="rounded-xl border-blue-500 text-blue-600"
+                      >
+                        <Navigation size={16} className="mr-1" />
+                        Como Chegar
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
