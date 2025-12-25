@@ -40,13 +40,24 @@ const ALL_CATEGORIES = [
 ];
 
 export default function VolunteersPage() {
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
   const [showModal, setShowModal] = useState(true);
+  const [showOfferModal, setShowOfferModal] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [helpRequests, setHelpRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Estado para o formulário de oferta pública
+  const [publicOffer, setPublicOffer] = useState({
+    title: '',
+    description: '',
+    categories: [],
+    location: null,
+    images: []
+  });
 
   // Rotacionar imagens de fundo
   useEffect(() => {
