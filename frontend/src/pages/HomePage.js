@@ -158,6 +158,7 @@ export default function HomePage() {
   useEffect(() => {
     fetchPosts();
     fetchAdvertisements();
+    fetchMuralMessages();
   }, []);
 
   useEffect(() => {
