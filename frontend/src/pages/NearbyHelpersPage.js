@@ -242,10 +242,8 @@ export default function NearbyHelpersPage() {
     const map = window.L.map(mapRef.current).setView([myLocation.lat, myLocation.lng], 13);
     mapInstanceRef.current = map;
 
-    // Tile layer baseado no modo dia/noite
-    const tileUrl = isNight 
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-      : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    // Tile layer - SEMPRE TEMA CLARO para melhor visualização
+    const tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
     window.L.tileLayer(tileUrl, {
       attribution: '© OpenStreetMap contributors © CARTO'
