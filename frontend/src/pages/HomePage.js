@@ -357,7 +357,12 @@ export default function HomePage() {
   };
 
   const getCategoryIcon = (category) => {
-    return categories.find(c => c.value === category)?.icon || '📝';
+    const cat = categories.find(c => c.value === category);
+    if (cat && cat.icon) {
+      const IconComponent = cat.icon;
+      return <IconComponent size={14} />;
+    }
+    return <Filter size={14} />;
   };
 
   return (
