@@ -1379,6 +1379,213 @@ async def delete_mural_message(msg_id: str, current_user: User = Depends(get_cur
     
     return {'message': 'Mensagem excluída'}
 
+# ==================== JSEARCH API - BUSCA DE EMPREGOS ====================
+
+RAPIDAPI_KEY = os.environ.get('RAPIDAPI_KEY', '')
+JSEARCH_BASE_URL = "https://jsearch.p.rapidapi.com"
+
+class JobSearchQuery(BaseModel):
+    query: str = Field(default="", description="Termo de busca (ex: garçom, eletricista)")
+    location: str = Field(default="France", description="Localização")
+    page: int = Field(default=1, description="Página de resultados")
+    num_pages: int = Field(default=1, description="Número de páginas")
+    date_posted: str = Field(default="all", description="Filtro de data: all, today, 3days, week, month")
+    remote_jobs_only: bool = Field(default=False, description="Apenas trabalhos remotos")
+    employment_types: Optional[str] = Field(default=None, description="FULLTIME, PARTTIME, CONTRACTOR, INTERN")
+
+@api_router.get("/jobs/search")
+async def search_jobs(
+    query: str = "emploi",
+    location: str = "France",
+    page: int = 1,
+    date_posted: str = "all",
+    remote_only: bool = False,
+    employment_type: Optional[str] = None
+):
+    """Busca vagas de emprego usando JSearch API (Indeed, LinkedIn, etc.)"""
+    
+    if not RAPIDAPI_KEY:
+        raise HTTPException(status_code=500, detail="API key não configurada")
+    
+    # Verificar cache primeiro (evitar muitas requisições)
+    cache_key = f"jobs_{query}_{location}_{page}_{date_posted}"
+    cached = await db.job_cache.find_one({'cache_key': cache_key})
+    
+    if cached and cached.get('expires_at', datetime.min) > datetime.now(timezone.utc):
+        return {
+            'jobs': cached.get('jobs', []),
+            'total': cached.get('total', 0),
+            'page': page,
+            'cached': True
+        }
+    
+    # Fazer requisição à API JSearch
+    headers = {
+        "X-RapidAPI-Key": RAPIDAPI_KEY,
+        "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
+    }
+    
+    params = {
+        "query": f"{query} in {location}",
+        "page": str(page),
+        "num_pages": "1",
+        "date_posted": date_posted
+    }
+    
+    if remote_only:
+        params["remote_jobs_only"] = "true"
+    
+    if employment_type:
+        params["employment_types"] = employment_type
+    
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                f"{JSEARCH_BASE_URL}/search",
+                headers=headers,
+                params=params,
+                timeout=aiohttp.ClientTimeout(total=30)
+            ) as response:
+                if response.status != 200:
+                    error_text = await response.text()
+                    logging.error(f"JSearch API error: {response.status} - {error_text}")
+                    raise HTTPException(status_code=response.status, detail=f"Erro na API: {error_text}")
+                
+                data = await response.json()
+                
+                # Processar resultados
+                jobs = []
+                for job in data.get('data', []):
+                    jobs.append({
+                        'id': job.get('job_id', str(uuid.uuid4())),
+                        'title': job.get('job_title', 'Vaga sem título'),
+                        'company': job.get('employer_name', 'Empresa não informada'),
+                        'company_logo': job.get('employer_logo'),
+                        'location': job.get('job_city', job.get('job_country', 'Não informado')),
+                        'description': job.get('job_description', '')[:500] + '...' if job.get('job_description') else '',
+                        'employment_type': job.get('job_employment_type', 'Não informado'),
+                        'date_posted': job.get('job_posted_at_datetime_utc', ''),
+                        'url': job.get('job_apply_link', job.get('job_google_link', '')),
+                        'source': job.get('job_publisher', 'JSearch'),
+                        'salary_min': job.get('job_min_salary'),
+                        'salary_max': job.get('job_max_salary'),
+                        'salary_currency': job.get('job_salary_currency'),
+                        'is_remote': job.get('job_is_remote', False),
+                        'qualifications': job.get('job_required_skills', []),
+                        'benefits': job.get('job_benefits', [])
+                    })
+                
+                total = data.get('total', len(jobs))
+                
+                # Salvar no cache (expira em 1 hora)
+                await db.job_cache.update_one(
+                    {'cache_key': cache_key},
+                    {
+                        '$set': {
+                            'cache_key': cache_key,
+                            'jobs': jobs,
+                            'total': total,
+                            'expires_at': datetime.now(timezone.utc) + timedelta(hours=1),
+                            'created_at': datetime.now(timezone.utc).isoformat()
+                        }
+                    },
+                    upsert=True
+                )
+                
+                return {
+                    'jobs': jobs,
+                    'total': total,
+                    'page': page,
+                    'cached': False
+                }
+                
+    except aiohttp.ClientError as e:
+        logging.error(f"JSearch API connection error: {e}")
+        raise HTTPException(status_code=503, detail=f"Erro de conexão com a API: {str(e)}")
+    except Exception as e:
+        logging.error(f"JSearch API error: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+@api_router.get("/jobs/details/{job_id}")
+async def get_job_details(job_id: str):
+    """Obtém detalhes de uma vaga específica"""
+    
+    if not RAPIDAPI_KEY:
+        raise HTTPException(status_code=500, detail="API key não configurada")
+    
+    headers = {
+        "X-RapidAPI-Key": RAPIDAPI_KEY,
+        "X-RapidAPI-Host": "jsearch.p.rapidapi.com"
+    }
+    
+    params = {"job_id": job_id}
+    
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                f"{JSEARCH_BASE_URL}/job-details",
+                headers=headers,
+                params=params,
+                timeout=aiohttp.ClientTimeout(total=30)
+            ) as response:
+                if response.status != 200:
+                    raise HTTPException(status_code=response.status, detail="Erro ao buscar detalhes")
+                
+                data = await response.json()
+                
+                if not data.get('data'):
+                    raise HTTPException(status_code=404, detail="Vaga não encontrada")
+                
+                job = data['data'][0]
+                
+                return {
+                    'id': job.get('job_id'),
+                    'title': job.get('job_title'),
+                    'company': job.get('employer_name'),
+                    'company_logo': job.get('employer_logo'),
+                    'company_website': job.get('employer_website'),
+                    'location': f"{job.get('job_city', '')}, {job.get('job_country', '')}",
+                    'description': job.get('job_description', ''),
+                    'employment_type': job.get('job_employment_type'),
+                    'date_posted': job.get('job_posted_at_datetime_utc'),
+                    'url': job.get('job_apply_link', job.get('job_google_link', '')),
+                    'source': job.get('job_publisher'),
+                    'salary_min': job.get('job_min_salary'),
+                    'salary_max': job.get('job_max_salary'),
+                    'salary_currency': job.get('job_salary_currency'),
+                    'is_remote': job.get('job_is_remote', False),
+                    'qualifications': job.get('job_required_skills', []),
+                    'benefits': job.get('job_benefits', []),
+                    'experience_required': job.get('job_required_experience', {}),
+                    'education_required': job.get('job_required_education', {})
+                }
+                
+    except aiohttp.ClientError as e:
+        raise HTTPException(status_code=503, detail=f"Erro de conexão: {str(e)}")
+
+@api_router.get("/jobs/suggested")
+async def get_suggested_jobs(category: str = "all"):
+    """Retorna vagas sugeridas por categoria"""
+    
+    # Mapeamento de categorias para termos de busca
+    category_queries = {
+        'bricolage': 'electrician plumber handyman France',
+        'cleaning': 'cleaning housekeeping France',
+        'transport': 'driver delivery chauffeur France',
+        'food': 'restaurant cook chef waiter France',
+        'care': 'caregiver nurse aide soignant France',
+        'education': 'teacher tutor professor France',
+        'tech': 'developer IT technician France',
+        'childcare': 'babysitter nanny childcare France',
+        'garden': 'gardener landscaper France',
+        'moving': 'mover warehouse logistics France',
+        'all': 'jobs France'
+    }
+    
+    query = category_queries.get(category, category_queries['all'])
+    
+    return await search_jobs(query=query, location="France", page=1, date_posted="week")
+
 @api_router.get("/sidebar-content")
 async def get_sidebar_content():
     """Retorna todo o conteúdo da sidebar: anúncios + vagas de emprego"""
