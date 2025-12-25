@@ -239,7 +239,7 @@ export default function JobsPage() {
       <div className="bg-white border-b shadow-sm sticky top-0 z-10">
         <div className="container mx-auto max-w-4xl px-4 py-4">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-xl font-bold text-gray-800">💼 Trabalhos & Serviços</h1>
+            <h1 className="text-xl font-bold text-gray-800">💼 Buscar Emprego</h1>
             <Button
               onClick={() => navigate('/home')}
               variant="outline"
@@ -251,24 +251,90 @@ export default function JobsPage() {
             </Button>
           </div>
 
-          {/* Barra de Pesquisa */}
-          <div className="flex gap-2 mb-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <Input
-                placeholder="Pesquisar serviços..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 rounded-full bg-gray-50"
-              />
+          {/* Barra de Pesquisa Principal */}
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-4 mb-4">
+            <p className="text-white text-sm mb-3 font-medium">🔍 Busque vagas em todas as plataformas</p>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <Input
+                  placeholder="Ex: garçom, eletricista, cozinheiro..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && searchAllPlatforms()}
+                  className="pl-10 rounded-xl bg-white h-12"
+                />
+              </div>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <Input
+                  placeholder="Cidade"
+                  value={locationQuery}
+                  onChange={(e) => setLocationQuery(e.target.value)}
+                  className="pl-10 rounded-xl bg-white h-12 w-full sm:w-36"
+                />
+              </div>
+              <Button 
+                onClick={searchAllPlatforms}
+                className="h-12 px-6 rounded-xl bg-yellow-500 hover:bg-yellow-600 text-black font-bold"
+              >
+                <Globe size={18} className="mr-2" />
+                Buscar em Tudo
+              </Button>
             </div>
-            <Button variant="outline" className="rounded-full">
-              <MapPin size={16} className="mr-1" />
-              Paris
-            </Button>
+            
+            {/* Sugestões de busca */}
+            {selectedCategory !== 'all' && SEARCH_SUGGESTIONS[selectedCategory] && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="text-white/70 text-xs">Sugestões:</span>
+                {SEARCH_SUGGESTIONS[selectedCategory].map(suggestion => (
+                  <button
+                    key={suggestion}
+                    onClick={() => setSearchQuery(suggestion)}
+                    className="px-2 py-1 bg-white/20 rounded-full text-xs text-white hover:bg-white/30"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Categorias de Serviços (Estilo AlloVoisins) */}
+          {/* Toggle de Modos */}
+          <div className="flex gap-2 mb-4 overflow-x-auto">
+            <button
+              onClick={() => setViewMode('platforms')}
+              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                viewMode === 'platforms'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              🌐 Plataformas de Emprego
+            </button>
+            <button
+              onClick={() => setViewMode('offers')}
+              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                viewMode === 'offers'
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              🛠️ Serviços ({jobOffers.length})
+            </button>
+            <button
+              onClick={() => setViewMode('seekers')}
+              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                viewMode === 'seekers'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              🔍 Procuram ({jobSeekers.length})
+            </button>
+          </div>
+
+          {/* Categorias de Serviços */}
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
             {SERVICE_CATEGORIES.map(cat => {
               const IconComponent = cat.icon;
@@ -293,21 +359,131 @@ export default function JobsPage() {
 
       {/* Conteúdo Principal */}
       <div className="container mx-auto max-w-4xl px-4 py-4">
-        {/* Toggle Ofertas / Procuras */}
-        <div className="flex gap-2 mb-4">
-          <Button
-            onClick={() => setViewMode('offers')}
-            variant={viewMode === 'offers' ? 'default' : 'outline'}
-            className={`flex-1 rounded-full ${viewMode === 'offers' ? 'bg-primary' : ''}`}
-          >
-            🛠️ Ofertas de Serviço ({jobOffers.length})
-          </Button>
-          <Button
-            onClick={() => setViewMode('seekers')}
-            variant={viewMode === 'seekers' ? 'default' : 'outline'}
-            className={`flex-1 rounded-full ${viewMode === 'seekers' ? 'bg-green-600' : ''}`}
-          >
-            🔍 Procuram Trabalho ({jobSeekers.length})
+        
+        {/* Modo: Plataformas de Emprego */}
+        {viewMode === 'platforms' && (
+          <div className="space-y-4">
+            <div className="text-center mb-6">
+              <h2 className="text-lg font-bold text-gray-800 mb-2">🌍 Busque em {JOB_PLATFORMS.length} Plataformas</h2>
+              <p className="text-sm text-gray-600">Clique em uma plataforma para buscar vagas disponíveis</p>
+            </div>
+
+            {/* Grid de Plataformas */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {(showAllPlatforms ? JOB_PLATFORMS : JOB_PLATFORMS.slice(0, 4)).map(platform => (
+                <button
+                  key={platform.id}
+                  onClick={() => searchOnPlatform(platform)}
+                  className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all border border-gray-100 hover:border-blue-300 group"
+                >
+                  <div className={`w-12 h-12 ${platform.color} rounded-xl flex items-center justify-center text-2xl mx-auto mb-2 group-hover:scale-110 transition-transform`}>
+                    {platform.logo}
+                  </div>
+                  <h3 className="font-bold text-sm text-gray-800">{platform.name}</h3>
+                  <p className="text-xs text-gray-500 mt-1 line-clamp-2">{platform.description}</p>
+                  <div className="mt-2 flex items-center justify-center text-blue-600 text-xs">
+                    <ExternalLink size={12} className="mr-1" />
+                    Buscar
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {!showAllPlatforms && (
+              <button
+                onClick={() => setShowAllPlatforms(true)}
+                className="w-full py-3 text-blue-600 font-medium text-sm hover:bg-blue-50 rounded-xl transition-colors"
+              >
+                Ver mais {JOB_PLATFORMS.length - 4} plataformas →
+              </button>
+            )}
+
+            {/* Dicas de Busca */}
+            <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 mt-6">
+              <h3 className="font-bold text-yellow-800 mb-2">💡 Dicas para Encontrar Emprego</h3>
+              <ul className="text-sm text-yellow-700 space-y-1">
+                <li>• Use palavras-chave específicas (ex: "aide cuisine" em vez de apenas "cuisine")</li>
+                <li>• Cadastre-se nas plataformas para receber alertas de vagas</li>
+                <li>• O <strong>Pôle Emploi</strong> é a agência oficial de emprego na França</li>
+                <li>• Mantenha seu CV atualizado em francês</li>
+              </ul>
+            </div>
+
+            {/* Links Úteis */}
+            <div className="bg-white rounded-2xl p-4 shadow-md">
+              <h3 className="font-bold text-gray-800 mb-3">🔗 Links Úteis</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <a 
+                  href="https://www.service-public.fr/particuliers/vosdroits/N19806" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                >
+                  <span className="text-lg">📋</span>
+                  <div>
+                    <p className="font-medium text-sm text-gray-800">Direitos do Trabalhador</p>
+                    <p className="text-xs text-gray-500">service-public.fr</p>
+                  </div>
+                </a>
+                <a 
+                  href="https://www.francetravail.fr/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                >
+                  <span className="text-lg">🇫🇷</span>
+                  <div>
+                    <p className="font-medium text-sm text-gray-800">France Travail</p>
+                    <p className="text-xs text-gray-500">Cadastro oficial</p>
+                  </div>
+                </a>
+                <a 
+                  href="https://www.cidj.com/emploi-jobs" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                >
+                  <span className="text-lg">👥</span>
+                  <div>
+                    <p className="font-medium text-sm text-gray-800">CIDJ - Empregos Jovens</p>
+                    <p className="text-xs text-gray-500">Para jovens trabalhadores</p>
+                  </div>
+                </a>
+                <a 
+                  href="https://www.refugies.info/demarche/trouver-un-emploi" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                >
+                  <span className="text-lg">🤝</span>
+                  <div>
+                    <p className="font-medium text-sm text-gray-800">Refugiés.info</p>
+                    <p className="text-xs text-gray-500">Ajuda para refugiados</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modo: Ofertas e Procuras da Comunidade */}
+        {(viewMode === 'offers' || viewMode === 'seekers') && (
+          <>
+            {/* Toggle Ofertas / Procuras */}
+            <div className="flex gap-2 mb-4">
+              <Button
+                onClick={() => setViewMode('offers')}
+                variant={viewMode === 'offers' ? 'default' : 'outline'}
+                className={`flex-1 rounded-full ${viewMode === 'offers' ? 'bg-primary' : ''}`}
+              >
+                🛠️ Ofertas de Serviço ({jobOffers.length})
+              </Button>
+              <Button
+                onClick={() => setViewMode('seekers')}
+                variant={viewMode === 'seekers' ? 'default' : 'outline'}
+                className={`flex-1 rounded-full ${viewMode === 'seekers' ? 'bg-green-600' : ''}`}
+              >
+                🔍 Procuram Trabalho ({jobSeekers.length})
           </Button>
         </div>
 
