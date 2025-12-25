@@ -582,6 +582,7 @@ export default function NearbyHelpersPage() {
               onClick={() => {
                 fetchNearbyHelpers();
                 fetchHelpLocations();
+                fetchJobLocations();
               }}
               variant="outline"
               size="sm"
