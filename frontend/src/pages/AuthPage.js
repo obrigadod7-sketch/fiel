@@ -254,16 +254,54 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen gradient-bg flex items-center justify-center p-4">
-      <button
-        onClick={goBack}
-        className="absolute top-6 left-6 p-2 rounded-full hover:bg-white/50 transition-all"
-        data-testid="back-button"
-      >
-        <ArrowLeft size={24} />
-      </button>
+    <div className="min-h-screen flex">
+      {/* Lado Esquerdo - Imagem de Fundo */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        {/* Imagem baseada no role selecionado */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center transition-all duration-700"
+          style={{ 
+            backgroundImage: role === 'migrant' 
+              ? `url('https://images.unsplash.com/photo-1578357078586-491adf1aa5ba?w=1200&q=90')`
+              : `url('https://images.unsplash.com/photo-1599119807932-4826b334c431?w=1200&q=90')`
+          }}
+        />
+        {/* Overlay com gradiente */}
+        <div className={`absolute inset-0 ${
+          role === 'migrant' 
+            ? 'bg-gradient-to-br from-green-900/70 to-green-600/50' 
+            : 'bg-gradient-to-br from-primary/70 to-secondary/50'
+        }`} />
+        
+        {/* Conteúdo sobre a imagem */}
+        <div className="relative z-10 flex flex-col justify-center items-center text-white p-12 text-center">
+          <h1 className="text-4xl font-bold mb-4">
+            {role === 'migrant' ? 'Preciso de Ajuda' : 'Quero Ajudar'}
+          </h1>
+          <p className="text-xl text-white/90 max-w-md">
+            {role === 'migrant' 
+              ? 'Encontre apoio, recursos e uma comunidade pronta para te ajudar.'
+              : 'Sua solidariedade transforma vidas. Faça a diferença hoje.'}
+          </p>
+          <div className="mt-8 flex items-center gap-4">
+            <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
+              <span className="text-lg">+500 pessoas ajudadas</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-card p-8 animate-fade-in" data-testid="auth-form">
+      {/* Lado Direito - Formulário */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 gradient-bg">
+        <button
+          onClick={goBack}
+          className="absolute top-6 left-6 p-2 rounded-full hover:bg-white/50 transition-all lg:left-auto lg:right-6"
+          data-testid="back-button"
+        >
+          <ArrowLeft size={24} />
+        </button>
+
+        <div className="w-full max-w-md bg-white rounded-3xl shadow-card p-8 animate-fade-in" data-testid="auth-form">
         {/* Step indicator for registration */}
         {!isLogin && (role === 'migrant' || role === 'helper') && (
           <div className="flex justify-center mb-6">
