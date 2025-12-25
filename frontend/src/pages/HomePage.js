@@ -466,23 +466,19 @@ export default function HomePage() {
                 🆘 Preciso de Ajuda
               </Button>
             </DialogTrigger>
-            <DialogContent className="rounded-3xl max-w-2xl mx-4 max-h-[90vh] overflow-hidden flex flex-col" data-testid="create-post-dialog">
-              <DialogHeader className="pb-4 border-b flex-shrink-0">
-                <DialogTitle className="text-2xl font-heading">
-                  🆘 Preciso de Ajuda
-                </DialogTitle>
-                <DialogDescription>
-                  Preencha as informações abaixo para publicar
-                </DialogDescription>
-              </DialogHeader>
-              <div 
-                className="flex-1 overflow-y-auto px-2 py-4" 
-                style={{ 
-                  maxHeight: 'calc(90vh - 180px)',
-                  overflowY: 'auto'
-                }}
-              >
-              <div className="space-y-6 pr-2">
+            <DialogContent className="rounded-3xl max-w-2xl mx-4 p-0 overflow-hidden" data-testid="create-post-dialog">
+              <div className="flex flex-col max-h-[85vh]">
+                <DialogHeader className="p-6 pb-4 border-b flex-shrink-0">
+                  <DialogTitle className="text-2xl font-heading">
+                    🆘 Preciso de Ajuda
+                  </DialogTitle>
+                  <DialogDescription>
+                    Preencha as informações abaixo para publicar
+                  </DialogDescription>
+                </DialogHeader>
+                
+                <div className="flex-1 overflow-y-auto p-6 pt-4">
+                  <div className="space-y-6">
                 {/* Categoria */}
                 <div className="bg-gray-50 p-5 rounded-2xl">
                   <Label className="text-base font-bold mb-3 block">📂 Selecione a Categoria</Label>
