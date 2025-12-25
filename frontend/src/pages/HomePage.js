@@ -466,7 +466,7 @@ export default function HomePage() {
                 🆘 Preciso de Ajuda
               </Button>
             </DialogTrigger>
-            <DialogContent className="rounded-3xl max-w-2xl max-h-[85vh] flex flex-col" data-testid="create-post-dialog">
+            <DialogContent className="rounded-3xl max-w-2xl mx-4 max-h-[90vh] overflow-hidden flex flex-col" data-testid="create-post-dialog">
               <DialogHeader className="pb-4 border-b flex-shrink-0">
                 <DialogTitle className="text-2xl font-heading">
                   🆘 Preciso de Ajuda
@@ -476,13 +476,12 @@ export default function HomePage() {
                 </DialogDescription>
               </DialogHeader>
               <div 
-                className="flex-1 overflow-y-scroll px-2 py-2 scroll-container" 
+                className="flex-1 overflow-y-auto px-2 py-4" 
                 style={{ 
-                  maxHeight: 'calc(85vh - 200px)',
-                  scrollbarWidth: 'thin',
-                  scrollbarColor: '#1CA9C9 #f1f1f1'
-              }}
-            >
+                  maxHeight: 'calc(90vh - 180px)',
+                  overflowY: 'auto'
+                }}
+              >
               <div className="space-y-6 pr-2">
                 {/* Categoria */}
                 <div className="bg-gray-50 p-5 rounded-2xl">
