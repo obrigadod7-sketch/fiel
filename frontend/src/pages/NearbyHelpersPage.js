@@ -387,11 +387,6 @@ export default function NearbyHelpersPage() {
               <MapPin size={28} />
               {t('nearbyHelp')}
             </h1>
-            {/* Indicador Dia/Noite */}
-            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${isNight ? 'bg-indigo-800' : 'bg-blue-500'}`}>
-              {isNight ? <Moon size={16} /> : <Sun size={16} />}
-              <span className="text-xs font-medium">{isNight ? 'Noturno' : 'Diurno'}</span>
-            </div>
           </div>
           <p className="text-white/80 text-sm">
             {t('findVolunteersNearby')}
