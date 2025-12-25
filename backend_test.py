@@ -338,6 +338,59 @@ class WatizatAPITester:
         
         return False
 
+    def test_mural_get(self):
+        """Test GET /api/mural - get mural messages"""
+        success, response = self.run_test(
+            "Get Mural Messages",
+            "GET",
+            "mural",
+            200
+        )
+        if success and isinstance(response, dict) and 'messages' in response:
+            messages = response.get('messages', [])
+            self.log_test("Mural Messages Structure", True, f"Found {len(messages)} mural messages")
+            return True, messages
+        else:
+            self.log_test("Mural Messages Structure", False, "Response missing 'messages' field or wrong format")
+            return False, []
+
+    def test_mural_post(self, name, message):
+        """Test POST /api/mural - create new mural message"""
+        success, response = self.run_test(
+            "Create Mural Message",
+            "POST",
+            "mural",
+            200,
+            data={"name": name, "message": message}
+        )
+        if success and isinstance(response, dict) and 'id' in response:
+            self.log_test("Mural Message Creation", True, f"Message created with ID: {response['id']}")
+            return True, response
+        else:
+            self.log_test("Mural Message Creation", False, "Response missing 'id' field or wrong format")
+            return False, {}
+
+    def test_render_yaml_config(self):
+        """Check if render.yaml uses yarn instead of npm"""
+        print("\n🔧 Checking render.yaml configuration...")
+        try:
+            with open('/app/render.yaml', 'r') as f:
+                content = f.read()
+                
+            if 'yarn install' in content:
+                self.log_test("Render.yaml Configuration", True, "Uses 'yarn install' correctly")
+                return True
+            elif 'npm install' in content:
+                self.log_test("Render.yaml Configuration", False, "Still uses 'npm install' instead of 'yarn install'")
+                return False
+            else:
+                self.log_test("Render.yaml Configuration", False, "No install command found")
+                return False
+                
+        except Exception as e:
+            self.log_test("Render.yaml Configuration", False, f"Error reading file: {e}")
+            return False
+
     def test_volunteer_category_matching(self):
         """Test voluntários devem ver posts que contenham alguma das categorias que eles selecionaram"""
         # Create a volunteer user with specific help categories
