@@ -462,6 +462,16 @@ export default function HomePage() {
             >
               🤝 Oferece Ajuda
             </button>
+            <button
+              onClick={() => setTypeFilter('job')}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all flex-shrink-0 flex items-center gap-1 ${
+                typeFilter === 'job'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-indigo-50'
+              }`}
+            >
+              💼 Vagas de Emprego
+            </button>
           </div>
         </div>
       </div>
