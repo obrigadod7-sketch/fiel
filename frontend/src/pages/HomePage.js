@@ -646,7 +646,7 @@ export default function HomePage() {
                             : 'bg-white border-gray-200 hover:border-primary hover:shadow-md'
                         }`}
                       >
-                        <div className="text-2xl mb-2">{cat.icon}</div>
+                        <cat.icon size={24} className="mb-2" />
                         <div className={`font-bold text-sm ${newPost.category === cat.value ? 'text-white' : 'text-textPrimary'}`}>
                           {cat.label}
                         </div>
