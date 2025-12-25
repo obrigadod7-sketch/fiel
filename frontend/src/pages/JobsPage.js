@@ -4,9 +4,93 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import BottomNav from '../components/BottomNav';
-import { Search, MapPin, Star, Clock, MessageCircle, Plus, Filter, Briefcase, Wrench, Home, Car, Utensils, Heart, GraduationCap, Monitor, Baby, Flower2, Package, MoreHorizontal } from 'lucide-react';
+import { Search, MapPin, Star, Clock, MessageCircle, Plus, Filter, Briefcase, Wrench, Home, Car, Utensils, Heart, GraduationCap, Monitor, Baby, Flower2, Package, MoreHorizontal, ExternalLink, Globe } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+
+// Plataformas de emprego externas
+const JOB_PLATFORMS = [
+  { 
+    id: 'indeed', 
+    name: 'Indeed', 
+    logo: '🔵',
+    color: 'bg-blue-600',
+    baseUrl: 'https://fr.indeed.com/jobs',
+    searchParam: 'q',
+    locationParam: 'l',
+    description: 'Maior site de empregos do mundo'
+  },
+  { 
+    id: 'pole_emploi', 
+    name: 'Pôle Emploi', 
+    logo: '🇫🇷',
+    color: 'bg-blue-800',
+    baseUrl: 'https://candidat.pole-emploi.fr/offres/recherche',
+    searchParam: 'motsCles',
+    locationParam: 'lieux',
+    description: 'Agência de emprego francesa'
+  },
+  { 
+    id: 'linkedin', 
+    name: 'LinkedIn', 
+    logo: '💼',
+    color: 'bg-blue-700',
+    baseUrl: 'https://www.linkedin.com/jobs/search',
+    searchParam: 'keywords',
+    locationParam: 'location',
+    description: 'Rede profissional mundial'
+  },
+  { 
+    id: 'leboncoin', 
+    name: 'Leboncoin', 
+    logo: '🟠',
+    color: 'bg-orange-500',
+    baseUrl: 'https://www.leboncoin.fr/recherche',
+    searchParam: 'text',
+    locationParam: 'locations',
+    description: 'Anúncios classificados na França'
+  },
+  { 
+    id: 'monster', 
+    name: 'Monster', 
+    logo: '👾',
+    color: 'bg-purple-600',
+    baseUrl: 'https://www.monster.fr/emploi/recherche',
+    searchParam: 'q',
+    locationParam: 'where',
+    description: 'Portal de carreiras internacional'
+  },
+  { 
+    id: 'hellowork', 
+    name: 'HelloWork', 
+    logo: '👋',
+    color: 'bg-green-600',
+    baseUrl: 'https://www.hellowork.com/fr-fr/emploi/recherche.html',
+    searchParam: 'k',
+    locationParam: 'l',
+    description: 'Empregos e formação na França'
+  },
+  { 
+    id: 'apec', 
+    name: 'APEC', 
+    logo: '🎯',
+    color: 'bg-red-600',
+    baseUrl: 'https://www.apec.fr/candidat/recherche-emploi.html/emploi',
+    searchParam: 'motsCles',
+    locationParam: 'lieu',
+    description: 'Empregos para executivos'
+  },
+  { 
+    id: 'welcometothejungle', 
+    name: 'Welcome to the Jungle', 
+    logo: '🌴',
+    color: 'bg-yellow-500',
+    baseUrl: 'https://www.welcometothejungle.com/fr/jobs',
+    searchParam: 'query',
+    locationParam: 'aroundQuery',
+    description: 'Startups e empresas inovadoras'
+  }
+];
 
 // Categorias de serviços (estilo AlloVoisins)
 const SERVICE_CATEGORIES = [
@@ -24,16 +108,32 @@ const SERVICE_CATEGORIES = [
   { value: 'other', label: 'Outros', icon: MoreHorizontal, emoji: '➕' }
 ];
 
+// Termos de busca sugeridos por categoria
+const SEARCH_SUGGESTIONS = {
+  'bricolage': ['électricien', 'plombier', 'menuisier', 'peintre'],
+  'cleaning': ['agent d\'entretien', 'femme de ménage', 'nettoyage'],
+  'transport': ['chauffeur', 'livreur', 'déménageur'],
+  'food': ['cuisinier', 'serveur', 'aide cuisine', 'restauration'],
+  'care': ['aide soignant', 'auxiliaire de vie', 'infirmier'],
+  'education': ['professeur', 'formateur', 'animateur'],
+  'tech': ['développeur', 'informaticien', 'technicien'],
+  'childcare': ['nounou', 'baby-sitter', 'auxiliaire puériculture'],
+  'garden': ['jardinier', 'paysagiste', 'espaces verts'],
+  'moving': ['déménageur', 'manutentionnaire', 'logistique']
+};
+
 export default function JobsPage() {
   const { token, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [locationQuery, setLocationQuery] = useState('Paris');
   const [jobOffers, setJobOffers] = useState([]);
   const [jobSeekers, setJobSeekers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreateOffer, setShowCreateOffer] = useState(false);
-  const [viewMode, setViewMode] = useState('offers'); // 'offers' ou 'seekers'
+  const [viewMode, setViewMode] = useState('platforms'); // 'platforms', 'offers' ou 'seekers'
+  const [showAllPlatforms, setShowAllPlatforms] = useState(false);
 
   useEffect(() => {
     fetchJobs();
