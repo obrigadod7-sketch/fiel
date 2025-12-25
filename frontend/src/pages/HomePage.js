@@ -450,9 +450,10 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-3xl overflow-x-hidden">
-        {/* Conteúdo Principal - Feed CENTRALIZADO */}
-        <div className="w-full">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-6xl overflow-x-hidden">
+        <div className="flex gap-6">
+          {/* Conteúdo Principal - Feed */}
+          <div className="flex-1 max-w-2xl">
 
         {/* Botão para Migrantes - Abre modal */}
         {user?.role === 'migrant' ? (
