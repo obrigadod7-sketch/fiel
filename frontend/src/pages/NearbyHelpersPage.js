@@ -137,7 +137,7 @@ export default function NearbyHelpersPage() {
     if (myLocation && useLeaflet && window.L && mapRef.current) {
       initMap();
     }
-  }, [myLocation, nearbyHelpers, helpLocations, viewMode, isNight, useLeaflet]);
+  }, [myLocation, nearbyHelpers, helpLocations, jobLocations, viewMode, isNight, useLeaflet]);
 
   const getMyLocation = () => {
     if (!navigator.geolocation) {
