@@ -1307,6 +1307,78 @@ async def get_external_jobs():
     
     return {'jobs': jobs, 'cached': False}
 
+# ==================== MURAL DE MENSAGENS ENDPOINTS ====================
+
+class MuralMessage(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    message: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    approved: bool = False  # Mensagens precisam de aprovação (moderação)
+
+class MuralMessageCreate(BaseModel):
+    name: str = Field(..., min_length=2, max_length=50)
+    message: str = Field(..., min_length=5, max_length=500)
+
+@api_router.get("/mural")
+async def get_mural_messages(limit: int = 20):
+    """Retorna as mensagens aprovadas do mural"""
+    messages = await db.mural_messages.find(
+        {'approved': True}, 
+        {'_id': 0}
+    ).sort('created_at', -1).to_list(limit)
+    
+    return {'messages': messages, 'total': len(messages)}
+
+@api_router.post("/mural")
+async def create_mural_message(msg_data: MuralMessageCreate):
+    """Cria uma nova mensagem no mural (precisa de aprovação)"""
+    message = MuralMessage(
+        name=msg_data.name,
+        message=msg_data.message,
+        approved=True  # Por enquanto aprovamos automaticamente
+    )
+    
+    msg_dict = message.model_dump()
+    msg_dict['created_at'] = msg_dict['created_at'].isoformat()
+    
+    await db.mural_messages.insert_one(msg_dict)
+    return {'message': 'Mensagem enviada com sucesso!', 'id': message.id}
+
+@api_router.get("/admin/mural")
+async def admin_get_mural_messages(current_user: User = Depends(get_current_user)):
+    """Lista todas as mensagens do mural (admin only)"""
+    if current_user.role != 'admin':
+        raise HTTPException(status_code=403, detail="Admin only")
+    
+    messages = await db.mural_messages.find({}, {'_id': 0}).sort('created_at', -1).to_list(100)
+    return messages
+
+@api_router.put("/admin/mural/{msg_id}/approve")
+async def approve_mural_message(msg_id: str, current_user: User = Depends(get_current_user)):
+    """Aprova uma mensagem do mural"""
+    if current_user.role != 'admin':
+        raise HTTPException(status_code=403, detail="Admin only")
+    
+    result = await db.mural_messages.update_one({'id': msg_id}, {'$set': {'approved': True}})
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Mensagem não encontrada")
+    
+    return {'message': 'Mensagem aprovada'}
+
+@api_router.delete("/admin/mural/{msg_id}")
+async def delete_mural_message(msg_id: str, current_user: User = Depends(get_current_user)):
+    """Exclui uma mensagem do mural"""
+    if current_user.role != 'admin':
+        raise HTTPException(status_code=403, detail="Admin only")
+    
+    result = await db.mural_messages.delete_one({'id': msg_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Mensagem não encontrada")
+    
+    return {'message': 'Mensagem excluída'}
+
 @api_router.get("/sidebar-content")
 async def get_sidebar_content():
     """Retorna todo o conteúdo da sidebar: anúncios + vagas de emprego"""
