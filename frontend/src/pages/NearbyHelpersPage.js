@@ -536,7 +536,7 @@ export default function NearbyHelpersPage() {
         {/* List */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className={`font-bold ${themeColors.text}`}>
+            <h2 className="font-bold text-gray-800">
               {loading ? 'Buscando...' : `${totalResults} resultado${totalResults !== 1 ? 's' : ''} encontrado${totalResults !== 1 ? 's' : ''}`}
             </h2>
           </div>
@@ -546,10 +546,10 @@ export default function NearbyHelpersPage() {
               <Loader2 size={32} className="animate-spin text-blue-500 mx-auto" />
             </div>
           ) : totalResults === 0 ? (
-            <div className={`${themeColors.card} rounded-2xl p-6 text-center border transition-colors duration-500`}>
-              <MapPin size={48} className={`mx-auto mb-3 ${isNight ? 'text-gray-600' : 'text-gray-300'}`} />
-              <p className={themeColors.textMuted}>Nenhum resultado encontrado nesta área</p>
-              <p className={`text-sm mt-1 ${isNight ? 'text-gray-500' : 'text-gray-400'}`}>Tente aumentar o raio de busca</p>
+            <div className="bg-white border-gray-200 rounded-2xl p-6 text-center border">
+              <MapPin size={48} className="mx-auto mb-3 text-gray-300" />
+              <p className="text-gray-600">Nenhum resultado encontrado nesta área</p>
+              <p className="text-sm mt-1 text-gray-400">Tente aumentar o raio de busca</p>
             </div>
           ) : (
             <div className="space-y-3 max-h-[500px] overflow-y-auto">
@@ -557,10 +557,10 @@ export default function NearbyHelpersPage() {
               {(viewMode === 'all' || viewMode === 'locations') && helpLocations.map(location => (
                 <div
                   key={location.id}
-                  className={`${themeColors.card} rounded-2xl p-4 border-2 transition-all cursor-pointer ${
+                  className={`bg-white border-gray-200 rounded-2xl p-4 border-2 transition-all cursor-pointer ${
                     selectedLocation?.id === location.id 
                       ? 'border-blue-500 shadow-lg' 
-                      : `border-transparent ${themeColors.cardHover}`
+                      : 'border-transparent hover:border-blue-400'
                   }`}
                   onClick={() => {
                     setSelectedLocation(location);
@@ -575,16 +575,16 @@ export default function NearbyHelpersPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <h3 className={`font-bold text-sm truncate ${themeColors.text}`}>{location.name}</h3>
+                        <h3 className="font-bold text-sm truncate text-gray-800">{location.name}</h3>
                         <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full whitespace-nowrap">
                           {location.distance} km
                         </span>
                       </div>
-                      <p className={`text-xs mt-1 truncate ${themeColors.textMuted}`}>
+                      <p className="text-xs mt-1 truncate text-gray-600">
                         📍 {location.address}
                       </p>
                       {location.hours && (
-                        <p className={`text-xs mt-0.5 truncate ${themeColors.textMuted}`}>
+                        <p className="text-xs mt-0.5 truncate text-gray-600">
                           🕐 {location.hours}
                         </p>
                       )}
@@ -617,7 +617,7 @@ export default function NearbyHelpersPage() {
                         }}
                         size="sm"
                         variant="outline"
-                        className={`rounded-xl ${isNight ? 'border-blue-500 text-blue-400' : 'border-blue-500 text-blue-600'}`}
+                        className="rounded-xl border-blue-500 text-blue-600"
                       >
                         <ExternalLink size={16} className="mr-1" />
                         Street View
@@ -630,7 +630,7 @@ export default function NearbyHelpersPage() {
                           }}
                           size="sm"
                           variant="outline"
-                          className={`rounded-xl ${isNight ? 'border-slate-600' : ''}`}
+                          className="rounded-xl"
                         >
                           <Phone size={16} />
                         </Button>
@@ -644,10 +644,10 @@ export default function NearbyHelpersPage() {
               {(viewMode === 'all' || viewMode === 'helpers') && nearbyHelpers.map(helper => (
                 <div
                   key={helper.id}
-                  className={`${themeColors.card} rounded-2xl p-4 border-2 transition-all cursor-pointer ${
+                  className={`bg-white border-gray-200 rounded-2xl p-4 border-2 transition-all cursor-pointer ${
                     selectedHelper?.id === helper.id 
                       ? 'border-orange-500 shadow-lg' 
-                      : `border-transparent ${themeColors.cardHover}`
+                      : 'border-transparent hover:border-blue-400'
                   }`}
                   onClick={() => {
                     setSelectedHelper(helper);
@@ -660,12 +660,12 @@ export default function NearbyHelpersPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <h3 className={`font-bold truncate ${themeColors.text}`}>{helper.name}</h3>
+                        <h3 className="font-bold truncate text-gray-800">{helper.name}</h3>
                         <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full">
                           {helper.distance} km
                         </span>
                       </div>
-                      <p className={`text-sm ${themeColors.textMuted}`}>
+                      <p className="text-sm text-gray-600">
                         {helper.role === 'volunteer' ? '🤝 Voluntário Profissional' : '🤝 Ajudante'}
                       </p>
                       <div className="flex flex-wrap gap-1 mt-2">
@@ -674,7 +674,7 @@ export default function NearbyHelpersPage() {
                           return (
                             <span
                               key={cat}
-                              className={`text-xs px-2 py-1 rounded-full ${isNight ? 'bg-slate-700' : 'bg-gray-100'}`}
+                              className="text-xs px-2 py-1 rounded-full bg-gray-100"
                               title={catInfo.label}
                             >
                               {catInfo.icon} {catInfo.label}
@@ -682,7 +682,7 @@ export default function NearbyHelpersPage() {
                           );
                         })}
                         {helper.help_categories?.length > 4 && (
-                          <span className={`text-xs px-2 py-1 rounded-full ${isNight ? 'bg-slate-700' : 'bg-gray-100'}`}>
+                          <span className="text-xs px-2 py-1 rounded-full bg-gray-100">
                             +{helper.help_categories.length - 4}
                           </span>
                         )}
@@ -711,7 +711,7 @@ export default function NearbyHelpersPage() {
                           }}
                           size="sm"
                           variant="outline"
-                          className={`rounded-xl ${isNight ? 'border-orange-500 text-orange-400' : 'border-orange-500 text-orange-600'}`}
+                          className="rounded-xl border-orange-500 text-orange-600"
                         >
                           <ExternalLink size={16} className="mr-1" />
                           Street View
