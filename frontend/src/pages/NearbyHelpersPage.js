@@ -457,8 +457,9 @@ export default function NearbyHelpersPage() {
     window.open(`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${location.lat},${location.lng}`, '_blank');
   };
 
-  const totalResults = (viewMode === 'all' ? nearbyHelpers.length + helpLocations.length : 
-                       viewMode === 'helpers' ? nearbyHelpers.length : helpLocations.length);
+  const totalResults = (viewMode === 'all' ? nearbyHelpers.length + helpLocations.length + jobLocations.length : 
+                       viewMode === 'helpers' ? nearbyHelpers.length : 
+                       viewMode === 'jobs' ? jobLocations.length : helpLocations.length);
 
   return (
     <div className={`min-h-screen pb-20 transition-colors duration-500 ${themeColors.background}`}>
