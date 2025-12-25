@@ -375,7 +375,7 @@ export default function VolunteersPage() {
           <div 
             onClick={() => {
               setShowModal(false);
-              navigate('/home');
+              setShowOfferModal(true);
             }}
             className="mt-4 p-4 border-2 border-dashed border-primary/30 rounded-xl text-center cursor-pointer hover:bg-primary/5 transition-all"
           >
@@ -386,6 +386,153 @@ export default function VolunteersPage() {
             <p className="text-xs text-gray-500 mt-1">
               Publique uma oferta para que pessoas te encontrem
             </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal de Criar Oferta Pública */}
+      <Dialog open={showOfferModal} onOpenChange={setShowOfferModal}>
+        <DialogContent className="rounded-3xl max-w-lg mx-4 max-h-[90vh] overflow-y-auto bg-white p-6">
+          <DialogHeader className="pb-2">
+            <DialogTitle className="text-xl font-bold flex items-center gap-2">
+              <Plus className="w-6 h-6 text-primary" />
+              Criar Oferta de Ajuda Pública
+            </DialogTitle>
+            <DialogDescription>
+              Publique sua oferta para que pessoas que precisam possam te encontrar
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-5 mt-4">
+            {/* Seleção de Categorias */}
+            <div className="bg-gray-50 p-4 rounded-2xl">
+              <Label className="text-base font-bold mb-3 block">📂 Em que você pode ajudar?</Label>
+              <div className="flex flex-wrap gap-2">
+                {ALL_CATEGORIES.map(cat => (
+                  <button
+                    key={cat.value}
+                    type="button"
+                    onClick={() => toggleOfferCategory(cat.value)}
+                    className={`px-3 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-1 ${
+                      publicOffer.categories.includes(cat.value)
+                        ? 'bg-primary text-white shadow-md'
+                        : 'bg-white border border-gray-300 text-gray-700 hover:border-primary'
+                    }`}
+                  >
+                    <span>{cat.icon}</span>
+                    <span>{cat.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Título */}
+            <div className="bg-white border-2 border-gray-200 p-4 rounded-2xl">
+              <Label className="text-base font-bold mb-2 block flex items-center gap-2">
+                <span className="text-xl">✏️</span>
+                <span>Título da Oferta</span>
+              </Label>
+              <Input
+                value={publicOffer.title}
+                onChange={(e) => setPublicOffer({...publicOffer, title: e.target.value})}
+                placeholder="Ex: Posso ajudar com aulas de francês"
+                className="rounded-xl h-12"
+              />
+            </div>
+
+            {/* Descrição */}
+            <div className="bg-white border-2 border-gray-200 p-4 rounded-2xl">
+              <Label className="text-base font-bold mb-2 block flex items-center gap-2">
+                <span className="text-xl">📝</span>
+                <span>Descrição</span>
+              </Label>
+              <Textarea
+                value={publicOffer.description}
+                onChange={(e) => setPublicOffer({...publicOffer, description: e.target.value})}
+                rows={4}
+                placeholder="Descreva como você pode ajudar, sua disponibilidade, etc..."
+                className="rounded-xl"
+              />
+            </div>
+
+            {/* Localização */}
+            <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-2xl">
+              <Label className="text-base font-bold mb-2 block flex items-center gap-2">
+                <MapPin className="text-blue-600" size={20} />
+                <span>Localização (opcional)</span>
+              </Label>
+              {publicOffer.location ? (
+                <div className="flex items-center justify-between bg-white p-3 rounded-xl">
+                  <span className="text-sm text-gray-600">📍 {publicOffer.location.address}</span>
+                  <button 
+                    onClick={() => setPublicOffer({...publicOffer, location: null})}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : (
+                <Button
+                  type="button"
+                  onClick={getLocation}
+                  variant="outline"
+                  className="w-full rounded-xl"
+                >
+                  <MapPin size={16} className="mr-2" />
+                  Adicionar minha localização
+                </Button>
+              )}
+            </div>
+
+            {/* Upload de Foto */}
+            <div className="bg-purple-50 border-2 border-purple-200 p-4 rounded-2xl">
+              <Label className="text-base font-bold mb-2 block flex items-center gap-2">
+                <ImageIcon className="text-purple-600" size={20} />
+                <span>Foto (opcional)</span>
+              </Label>
+              
+              {publicOffer.images.length > 0 && (
+                <div className="flex gap-2 mb-3 flex-wrap">
+                  {publicOffer.images.map((img, idx) => (
+                    <div key={idx} className="relative w-20 h-20">
+                      <img src={img} alt="Preview" className="w-full h-full object-cover rounded-xl" />
+                      <button
+                        onClick={() => removeImage(idx)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                accept="image/*"
+                className="hidden"
+              />
+              <Button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                variant="outline"
+                className="w-full rounded-xl"
+              >
+                <ImageIcon size={16} className="mr-2" />
+                {publicOffer.images.length > 0 ? 'Adicionar outra foto' : 'Adicionar foto'}
+              </Button>
+            </div>
+
+            {/* Botão de Publicar */}
+            <Button
+              onClick={submitPublicOffer}
+              className="w-full rounded-full py-6 bg-gradient-to-r from-primary to-secondary text-white font-bold shadow-lg"
+            >
+              <Heart size={20} className="mr-2" />
+              Publicar Oferta de Ajuda
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
