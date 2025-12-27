@@ -428,46 +428,46 @@ export default function VolunteersPage() {
             </div>
 
             {/* Título */}
-            <div className="bg-white border-2 border-gray-200 p-4 rounded-2xl">
-              <Label className="text-base font-bold mb-2 block flex items-center gap-2">
-                <span className="text-xl">✏️</span>
+            <div className="bg-white border-2 border-gray-200 p-3 sm:p-4 rounded-2xl">
+              <Label className="text-sm sm:text-base font-bold mb-2 block flex items-center gap-2">
+                <span className="text-lg sm:text-xl">✏️</span>
                 <span>Título da Oferta</span>
               </Label>
               <Input
                 value={publicOffer.title}
                 onChange={(e) => setPublicOffer({...publicOffer, title: e.target.value})}
-                placeholder="Ex: Posso ajudar com aulas de francês"
-                className="rounded-xl h-12"
+                placeholder="Ex: Aulas de francês"
+                className="rounded-xl h-10 sm:h-12 text-sm sm:text-base w-full"
               />
             </div>
 
             {/* Descrição */}
-            <div className="bg-white border-2 border-gray-200 p-4 rounded-2xl">
-              <Label className="text-base font-bold mb-2 block flex items-center gap-2">
-                <span className="text-xl">📝</span>
+            <div className="bg-white border-2 border-gray-200 p-3 sm:p-4 rounded-2xl">
+              <Label className="text-sm sm:text-base font-bold mb-2 block flex items-center gap-2">
+                <span className="text-lg sm:text-xl">📝</span>
                 <span>Descrição</span>
               </Label>
               <Textarea
                 value={publicOffer.description}
                 onChange={(e) => setPublicOffer({...publicOffer, description: e.target.value})}
-                rows={4}
-                placeholder="Descreva como você pode ajudar, sua disponibilidade, etc..."
-                className="rounded-xl"
+                rows={3}
+                placeholder="Como você pode ajudar..."
+                className="rounded-xl text-sm sm:text-base w-full"
               />
             </div>
 
             {/* Localização */}
-            <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-2xl">
-              <Label className="text-base font-bold mb-2 block flex items-center gap-2">
-                <MapPin className="text-blue-600" size={20} />
+            <div className="bg-blue-50 border-2 border-blue-200 p-3 sm:p-4 rounded-2xl">
+              <Label className="text-sm sm:text-base font-bold mb-2 block flex items-center gap-2">
+                <MapPin className="text-blue-600 flex-shrink-0" size={18} />
                 <span>Localização (opcional)</span>
               </Label>
               {publicOffer.location ? (
-                <div className="flex items-center justify-between bg-white p-3 rounded-xl">
-                  <span className="text-sm text-gray-600">📍 {publicOffer.location.address}</span>
+                <div className="flex items-center justify-between bg-white p-2 sm:p-3 rounded-xl gap-2">
+                  <span className="text-xs sm:text-sm text-gray-600 truncate flex-1 min-w-0">📍 {publicOffer.location.address}</span>
                   <button 
                     onClick={() => setPublicOffer({...publicOffer, location: null})}
-                    className="text-red-500 hover:text-red-700"
+                    className="text-red-500 hover:text-red-700 flex-shrink-0"
                   >
                     <X size={16} />
                   </button>
@@ -477,25 +477,25 @@ export default function VolunteersPage() {
                   type="button"
                   onClick={getLocation}
                   variant="outline"
-                  className="w-full rounded-xl"
+                  className="w-full rounded-xl text-xs sm:text-sm"
                 >
-                  <MapPin size={16} className="mr-2" />
-                  Adicionar minha localização
+                  <MapPin size={16} className="mr-2 flex-shrink-0" />
+                  Adicionar localização
                 </Button>
               )}
             </div>
 
             {/* Upload de Foto */}
-            <div className="bg-purple-50 border-2 border-purple-200 p-4 rounded-2xl">
-              <Label className="text-base font-bold mb-2 block flex items-center gap-2">
-                <ImageIcon className="text-purple-600" size={20} />
+            <div className="bg-purple-50 border-2 border-purple-200 p-3 sm:p-4 rounded-2xl">
+              <Label className="text-sm sm:text-base font-bold mb-2 block flex items-center gap-2">
+                <ImageIcon className="text-purple-600 flex-shrink-0" size={18} />
                 <span>Foto (opcional)</span>
               </Label>
               
               {publicOffer.images.length > 0 && (
                 <div className="flex gap-2 mb-3 flex-wrap">
                   {publicOffer.images.map((img, idx) => (
-                    <div key={idx} className="relative w-20 h-20">
+                    <div key={idx} className="relative w-16 sm:w-20 h-16 sm:h-20">
                       <img src={img} alt="Preview" className="w-full h-full object-cover rounded-xl" />
                       <button
                         onClick={() => removeImage(idx)}
