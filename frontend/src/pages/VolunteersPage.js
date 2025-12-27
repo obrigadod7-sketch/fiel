@@ -302,28 +302,29 @@ export default function VolunteersPage() {
 
           {/* Indicador de categorias selecionadas */}
           {selectedCategories.length > 0 && (
-            <div className="flex items-center gap-2 mt-4 p-3 bg-green-50 rounded-xl border border-green-200">
-              <Check size={16} className="text-green-600" />
-              <span className="text-sm text-green-700">
-                {selectedCategories.length} {selectedCategories.length === 1 ? 'categoria selecionada' : 'categorias selecionadas'}
+            <div className="flex items-center gap-2 mt-4 p-2 sm:p-3 bg-green-50 rounded-xl border border-green-200">
+              <Check size={14} className="text-green-600 flex-shrink-0" />
+              <span className="text-xs sm:text-sm text-green-700 flex-1 min-w-0 truncate">
+                {selectedCategories.length} {selectedCategories.length === 1 ? 'selecionada' : 'selecionadas'}
               </span>
-              <div className="flex gap-1 ml-auto">
-                {selectedCategories.map(cat => (
-                  <span key={cat} className="text-lg">{getCategoryInfo(cat).icon}</span>
+              <div className="flex gap-1 flex-shrink-0">
+                {selectedCategories.slice(0, 3).map(cat => (
+                  <span key={cat} className="text-base sm:text-lg">{getCategoryInfo(cat).icon}</span>
                 ))}
+                {selectedCategories.length > 3 && <span className="text-xs text-gray-500">+{selectedCategories.length - 3}</span>}
               </div>
             </div>
           )}
 
           {/* Solicitações de Ajuda Disponíveis */}
           {selectedCategories.length > 0 && (
-            <div className="mt-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 border border-green-200">
-              <h3 className="font-bold text-green-800 mb-1 flex items-center gap-2">
-                <Heart size={18} className="text-red-500" />
-                Pessoas que precisam de você
+            <div className="mt-3 sm:mt-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-3 sm:p-4 border border-green-200">
+              <h3 className="font-bold text-sm sm:text-base text-green-800 mb-1 flex items-center gap-2">
+                <Heart size={16} className="text-red-500 flex-shrink-0" />
+                <span className="truncate">Pessoas que precisam de você</span>
               </h3>
-              <p className="text-xs text-green-700 mb-4">
-                Clique para conversar e oferecer sua ajuda
+              <p className="text-xs text-green-700 mb-3 sm:mb-4">
+                Clique para conversar
               </p>
 
               {loading ? (
