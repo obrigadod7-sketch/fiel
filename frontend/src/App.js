@@ -17,6 +17,7 @@ import VolunteerRegisterPage from './pages/VolunteerRegisterPage';
 import NearbyHelpersPage from './pages/NearbyHelpersPage';
 import MapPage from './pages/MapPage';
 import JobsPage from './pages/JobsPage';
+import HousingPage from './pages/HousingPage';
 
 export const AuthContext = React.createContext();
 
