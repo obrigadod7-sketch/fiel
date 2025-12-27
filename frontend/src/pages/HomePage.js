@@ -1182,17 +1182,17 @@ export default function HomePage() {
                                       <div className="flex items-center gap-2 mt-2">
                                         {job.is_remote && (
                                           <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs">
-                                            🏠 Remoto
+                                            🏠 {t('remoteTag')}
                                           </span>
                                         )}
                                         <span className="text-xs text-gray-400">
-                                          {job.date_posted || 'Recente'}
+                                          {job.date_posted || t('recentTag')}
                                         </span>
                                       </div>
                                     </div>
                                     <div className="flex flex-col items-end gap-2">
                                       <ExternalLink size={16} className="text-blue-500" />
-                                      <span className="text-xs text-blue-600 font-medium">Ver</span>
+                                      <span className="text-xs text-blue-600 font-medium">{t('viewJob')}</span>
                                     </div>
                                   </div>
                                 </a>
@@ -1205,8 +1205,8 @@ export default function HomePage() {
                         {jobSearchResults.length === 0 && (
                           <div className="text-center py-6 bg-gray-50 rounded-xl">
                             <Search size={32} className="mx-auto text-gray-400 mb-2" />
-                            <p className="text-sm text-gray-600">Nenhuma vaga encontrada</p>
-                            <p className="text-xs text-gray-500 mt-1">Tente outros termos de busca</p>
+                            <p className="text-sm text-gray-600">{t('noJobsFoundText')}</p>
+                            <p className="text-xs text-gray-500 mt-1">{t('tryOtherTerms')}</p>
                           </div>
                         )}
                         
@@ -1217,8 +1217,8 @@ export default function HomePage() {
                               <span className="text-xl">🔔</span>
                             </div>
                             <div>
-                              <p className="font-bold text-sm">Receba vagas todos os dias!</p>
-                              <p className="text-xs text-white/80">Novas oportunidades direto no seu feed</p>
+                              <p className="font-bold text-sm">{t('receiveJobsEveryDayText')}</p>
+                              <p className="text-xs text-white/80">{t('newOpportunitiesText')}</p>
                             </div>
                           </div>
                         </div>
@@ -1228,11 +1228,11 @@ export default function HomePage() {
                           onClick={createPost}
                           className="w-full rounded-full py-5 text-base font-bold bg-green-600 hover:bg-green-700 shadow-lg"
                         >
-                          🔔 Receber Vagas Diárias no Meu Feed
+                          🔔 {t('receiveDailyJobsBtn')}
                         </Button>
                         
                         <p className="text-xs text-center text-gray-500">
-                          Você receberá vagas personalizadas de &ldquo;{jobSearchQuery}&rdquo; no seu feed
+                          {t('receivePersonalizedJobs')} &ldquo;{jobSearchQuery}&rdquo; {t('inYourFeed')}
                         </p>
                       </div>
                     </div>
@@ -1249,7 +1249,7 @@ export default function HomePage() {
             className="w-full rounded-full py-6 mb-6 bg-primary hover:bg-primary-hover text-white font-bold shadow-lg"
           >
             <Users size={20} className="mr-2" />
-            🤝 Quero Ajudar
+            🤝 {t('iWantToHelpBtn')}
           </Button>
         )}
 
