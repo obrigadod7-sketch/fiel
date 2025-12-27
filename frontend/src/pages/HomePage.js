@@ -1054,7 +1054,7 @@ export default function HomePage() {
                       </div>
                     </DialogHeader>
                     
-                    <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+                    <div className="flex-1 overflow-y-auto p-4 sm:p-6" style={{maxHeight: 'calc(85vh - 120px)', overflowY: 'auto'}}>
                       <div className="space-y-4">
                         {/* Card do Perfil RESUMIDO que será publicado */}
                         <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 p-4 rounded-2xl">
