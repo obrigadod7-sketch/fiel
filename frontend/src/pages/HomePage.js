@@ -168,12 +168,28 @@ export default function HomePage() {
   useEffect(() => {
     fetchPosts();
     fetchAdvertisements();
-    syncJobsToFeed();
+    fetchPersonalizedJobs();
   }, []);
 
   useEffect(() => {
     filterPosts();
   }, [posts, categoryFilter, typeFilter]);
+
+  // Buscar vagas personalizadas do usuário
+  const fetchPersonalizedJobs = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/personalized-jobs`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPersonalizedJobs(data.jobs || []);
+        setJobPreferences(data.preferences || null);
+      }
+    } catch (error) {
+      console.error('Error fetching personalized jobs:', error);
+    }
+  };
 
   const fetchAdvertisements = async () => {
     try {
