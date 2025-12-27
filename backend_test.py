@@ -752,6 +752,39 @@ class WatizatAPITester:
         
         return True
 
+    def run_housing_tests(self):
+        """Run tests specific to Housing/Hospedagem Solidária feature"""
+        print("\n🏠 Starting Housing/Hospedagem Solidária Tests...")
+        
+        # Test 1: Login with test@test.com / test123
+        print("\n📝 Housing Test 1: Login with test@test.com / test123")
+        if not self.test_housing_login():
+            print("⚠️  Housing login failed, housing tests may not work")
+            return False
+        
+        # Test 2: GET /api/housing - should return list of housing listings
+        print("\n📝 Housing Test 2: Get housing listings")
+        get_success, existing_listings = self.test_housing_get_listings()
+        
+        # Test 3: POST /api/housing - create a new listing
+        print("\n📝 Housing Test 3: Create new housing listing")
+        create_success, listing_id = self.test_housing_create_listing()
+        
+        # Test 4: GET /api/housing/{id} - get the created listing details
+        if create_success and listing_id:
+            print(f"\n📝 Housing Test 4: Get listing details for {listing_id}")
+            self.test_housing_get_listing_details(listing_id)
+        
+        # Test 5: Test filters: GET /api/housing?type=offer
+        print("\n📝 Housing Test 5: Filter by type (offer)")
+        self.test_housing_filter_by_type()
+        
+        # Test 6: Test filters: GET /api/housing?city=Paris
+        print("\n📝 Housing Test 6: Filter by city (Paris)")
+        self.test_housing_filter_by_city()
+        
+        return True
+
     def print_summary(self):
         """Print test summary"""
         print(f"\n📊 Test Summary:")
