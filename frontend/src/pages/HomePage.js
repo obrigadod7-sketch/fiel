@@ -675,17 +675,17 @@ export default function HomePage() {
                 </div>
 
                 {/* Título */}
-                <div className="bg-white border-2 border-gray-200 p-5 rounded-2xl">
-                  <Label className="text-base font-bold mb-3 block flex items-center gap-2">
-                    <span className="text-2xl">✏️</span>
+                <div className="bg-white border-2 border-gray-200 p-4 sm:p-5 rounded-2xl">
+                  <Label className="text-sm sm:text-base font-bold mb-2 sm:mb-3 block flex items-center gap-2">
+                    <span className="text-xl sm:text-2xl">✏️</span>
                     <span>Título do Pedido</span>
                   </Label>
                   <Input
                     data-testid="post-title-input"
                     value={newPost.title}
                     onChange={(e) => setNewPost({...newPost, title: e.target.value})}
-                    placeholder="Ex: Preciso de roupas de inverno"
-                    className="rounded-xl h-12 text-base"
+                    placeholder="Ex: Preciso de roupas"
+                    className="rounded-xl h-11 sm:h-12 text-sm sm:text-base w-full"
                   />
                   <p className="text-xs text-textMuted mt-2">Seja claro e específico</p>
                 </div>
