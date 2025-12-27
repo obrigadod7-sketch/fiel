@@ -2103,7 +2103,7 @@ async def delete_housing_listing(
 @api_router.put("/housing/{listing_id}/status")
 async def update_housing_status(
     listing_id: str,
-    status: str,
+    new_status: str,
     current_user: User = Depends(get_current_user)
 ):
     """Atualiza o status de um anúncio (active, matched, closed)"""
@@ -2117,7 +2117,7 @@ async def update_housing_status(
     
     await db.housing_listings.update_one(
         {'id': listing_id},
-        {'$set': {'status': status, 'updated_at': datetime.now(timezone.utc).isoformat()}}
+        {'$set': {'status': new_status, 'updated_at': datetime.now(timezone.utc).isoformat()}}
     )
     
     return {'message': f'Status atualizado para {status}'}
