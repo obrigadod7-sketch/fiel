@@ -324,7 +324,6 @@ const resources = {
       tryOtherSearchTerms: 'Tente outros termos de busca',
       viewAllJobs: 'Ver todas as vagas',
       remote: 'Remoto',
-      update: 'Atualizar',
       recent: 'Recente',
       lookingFor: 'Procuro',
       company: 'Empresa',
