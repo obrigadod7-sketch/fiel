@@ -1137,15 +1137,18 @@ export default function HomePage() {
                         {/* Vagas Encontradas - Mostrar TODAS como na página de trabalho */}
                         {jobSearchResults.length > 0 && (
                           <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                              <Label className="text-sm font-bold flex items-center gap-2">
-                                💼 Vagas Disponíveis 
-                                <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs">
-                                  {jobSearchResults.length}
-                                </span>
-                              </Label>
+                            <div className="flex items-center justify-between sticky top-0 bg-white py-2 z-10">
+                              <div className="flex items-center gap-2">
+                                <Label className="text-sm font-bold flex items-center gap-2">
+                                  💼 Vagas Disponíveis 
+                                  <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs">
+                                    {jobSearchResults.length}
+                                  </span>
+                                </Label>
+                              </div>
+                              <span className="text-xs text-gray-400">Role para ver mais ↓</span>
                             </div>
-                            <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                            <div className="space-y-2 overflow-y-auto pr-1" style={{maxHeight: '350px'}}>
                               {jobSearchResults.map((job, idx) => (
                                 <a 
                                   key={idx}
