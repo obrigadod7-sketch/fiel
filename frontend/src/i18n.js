@@ -808,6 +808,7 @@ const resources = {
       profile: 'Profile',
       map: 'Map',
       volunteers: 'Volunteers',
+      helpNav: 'Help',
       services: 'Services',
       nearbyHelp: 'Nearby Help',
       all: 'All',
