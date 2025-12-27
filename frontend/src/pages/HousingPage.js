@@ -867,6 +867,41 @@ export default function HousingPage() {
                     </div>
                   </div>
 
+                  {/* Availability Calendar */}
+                  {listingType === 'offer' && (
+                    <div>
+                      <Label className="text-sm font-semibold mb-2 block flex items-center gap-2">
+                        <Calendar size={16} className="text-rose-500" />
+                        {t('availability')}
+                      </Label>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">{t('availableFrom')}</label>
+                          <Input
+                            type="date"
+                            value={newListing.available_from}
+                            onChange={(e) => setNewListing({...newListing, available_from: e.target.value})}
+                            min={new Date().toISOString().split('T')[0]}
+                            className="rounded-xl"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 mb-1 block">{t('availableUntil')}</label>
+                          <Input
+                            type="date"
+                            value={newListing.available_until}
+                            onChange={(e) => setNewListing({...newListing, available_until: e.target.value})}
+                            min={newListing.available_from || new Date().toISOString().split('T')[0]}
+                            className="rounded-xl"
+                          />
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-2">
+                        💡 {t('availabilityHint')}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Exchange Services */}
                   {newListing.duration === 'exchange' && (
                     <div>
