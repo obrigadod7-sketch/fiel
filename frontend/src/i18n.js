@@ -470,6 +470,9 @@ const resources = {
       next: 'Suivant',
       previous: 'Précédent',
       nearestLocation: 'Lieu le Plus Proche',
+      viewResources: 'Voir Ressources',
+      resources: 'Ressources',
+      update: 'Actualiser',
       
       // Roles & Users
       migrant: 'Migrant',
