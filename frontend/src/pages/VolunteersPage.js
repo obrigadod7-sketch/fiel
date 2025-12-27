@@ -279,7 +279,7 @@ export default function VolunteersPage() {
               <button
                 key={cat.value}
                 onClick={() => toggleCategory(cat.value)}
-                className={`relative p-4 rounded-xl border-2 transition-all text-left overflow-hidden ${
+                className={`relative p-3 sm:p-4 rounded-xl border-2 transition-all text-left overflow-hidden ${
                   selectedCategories.includes(cat.value)
                     ? 'border-primary shadow-lg scale-105'
                     : 'border-gray-200 hover:border-gray-300'
@@ -290,10 +290,10 @@ export default function VolunteersPage() {
                   <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-20`} />
                 )}
                 <div className="relative z-10">
-                  <div className="text-3xl mb-2">{cat.icon}</div>
-                  <div className="font-medium text-gray-800">{cat.label}</div>
+                  <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">{cat.icon}</div>
+                  <div className="font-medium text-sm sm:text-base text-gray-800 truncate">{cat.label}</div>
                   {selectedCategories.includes(cat.value) && (
-                    <Check size={16} className="absolute top-2 right-2 text-primary" />
+                    <Check size={16} className="absolute top-1 right-1 sm:top-2 sm:right-2 text-primary" />
                   )}
                 </div>
               </button>
