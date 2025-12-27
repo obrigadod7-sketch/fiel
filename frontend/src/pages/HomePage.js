@@ -939,10 +939,10 @@ export default function HomePage() {
                         </button>
                         <div>
                           <DialogTitle className="text-xl sm:text-2xl font-heading flex items-center gap-2">
-                            💼 Buscar Emprego
+                            💼 {t('searchForJob')}
                           </DialogTitle>
                           <DialogDescription className="text-sm">
-                            Como o LinkedIn - encontre vagas e publique seu perfil
+                            {t('likeLinkedIn')}
                           </DialogDescription>
                         </div>
                       </div>
@@ -953,26 +953,26 @@ export default function HomePage() {
                         {/* Ilustração */}
                         <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white text-center">
                           <Search size={48} className="mx-auto mb-3 opacity-90" />
-                          <h3 className="text-lg font-bold mb-1">Encontre sua Oportunidade</h3>
-                          <p className="text-sm text-white/80">Busque vagas e crie seu perfil profissional</p>
+                          <h3 className="text-lg font-bold mb-1">{t('findYourOpportunityTitle')}</h3>
+                          <p className="text-sm text-white/80">{t('searchJobsProfileDesc')}</p>
                         </div>
                         
                         {/* Campo de Busca - O que procura */}
                         <div className="bg-white border-2 border-gray-200 p-4 rounded-2xl">
                           <Label className="text-sm font-bold mb-2 block flex items-center gap-2">
                             <Search size={18} className="text-blue-600" />
-                            O que você procura?
+                            {t('whatAreYouLookingForJob')}
                           </Label>
                           <Input
                             value={jobSearchQuery}
                             onChange={(e) => setJobSearchQuery(e.target.value)}
-                            placeholder="Ex: Garçom, Limpeza, Cozinheiro..."
+                            placeholder={`Ex: ${t('waiter')}, ${t('cleaning')}, ${t('cook')}...`}
                             className="rounded-xl h-12 text-base w-full"
                             onKeyPress={(e) => e.key === 'Enter' && searchJobsForUser()}
                           />
-                          <p className="text-xs text-gray-500 mt-1">💡 Digite em português - traduzimos automaticamente!</p>
+                          <p className="text-xs text-gray-500 mt-1">💡 {t('typeInPortuguese')}</p>
                           <div className="flex flex-wrap gap-2 mt-3">
-                            {['Garçom', 'Cozinheiro', 'Limpeza', 'Motorista', 'Construção', 'Vendedor', 'Caixa', 'Entregador'].map(tag => (
+                            {[t('waiter'), t('cook'), t('cleaning'), t('driver'), t('construction'), t('salesperson'), t('cashier'), t('deliveryPerson')].map(tag => (
                               <button
                                 key={tag}
                                 onClick={() => setJobSearchQuery(tag)}
@@ -988,7 +988,7 @@ export default function HomePage() {
                         <div className="bg-white border-2 border-gray-200 p-4 rounded-2xl">
                           <Label className="text-sm font-bold mb-2 block flex items-center gap-2">
                             <MapPin size={18} className="text-red-500" />
-                            Localização
+                            {t('location')}
                           </Label>
                           <Input
                             value={jobSearchLocation}
@@ -1018,12 +1018,12 @@ export default function HomePage() {
                           {loadingJobs ? (
                             <span className="flex items-center gap-2">
                               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                              Buscando vagas...
+                              {t('searchingJobsText')}
                             </span>
                           ) : (
                             <span className="flex items-center gap-2">
                               <Search size={20} />
-                              Buscar Vagas e Criar Perfil
+                              {t('searchJobsCreateProfileBtn')}
                             </span>
                           )}
                         </Button>
