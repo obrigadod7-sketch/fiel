@@ -13,7 +13,7 @@ export default function BottomNav() {
   const navItems = [
     { icon: Home, label: 'Home', path: '/home', testId: 'nav-home' },
     { icon: Briefcase, label: t('work'), path: '/jobs', testId: 'nav-jobs' },
-    { icon: Users, label: t('volunteers'), path: '/volunteers', testId: 'nav-volunteers' },
+    { icon: Users, label: t('helpNav'), path: '/volunteers', testId: 'nav-volunteers' },
     { icon: MessageCircle, label: t('chat'), path: '/chat', testId: 'nav-chat' },
     { icon: MapPin, label: t('map'), path: '/nearby', testId: 'nav-nearby' },
     { icon: User, label: t('profile'), path: '/profile', testId: 'nav-profile' },
