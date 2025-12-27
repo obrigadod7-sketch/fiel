@@ -807,6 +807,9 @@ def main():
         # Run basic tests first
         tester.run_basic_tests()
         
+        # Run housing tests as specified in review request
+        tester.run_housing_tests()
+        
         # Run multiple categories specific tests
         tester.run_multiple_categories_tests()
         
