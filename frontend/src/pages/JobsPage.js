@@ -141,6 +141,51 @@ export default function JobsPage() {
   const [selectedJob, setSelectedJob] = useState(null);
   const [showJobDetails, setShowJobDetails] = useState(false);
 
+  // Mapeamento de termos de busca Português → Francês
+  const jobSearchTranslations = {
+    'garçom': 'serveur', 'garcom': 'serveur', 'garçon': 'serveur',
+    'garconete': 'serveuse', 'garçonete': 'serveuse',
+    'cozinheiro': 'cuisinier', 'cozinha': 'cuisine', 'chef': 'chef cuisinier',
+    'limpeza': 'nettoyage', 'faxineiro': 'agent de nettoyage', 'faxineira': 'agent de nettoyage',
+    'construção': 'construction', 'pedreiro': 'maçon', 'pintor': 'peintre',
+    'eletricista': 'électricien', 'encanador': 'plombier',
+    'motorista': 'chauffeur', 'entregador': 'livreur', 'entrega': 'livraison',
+    'babá': 'nounou', 'baba': 'nounou', 'cuidador': 'aide-soignant', 'cuidadora': 'aide-soignante',
+    'jardineiro': 'jardinier', 'jardinagem': 'jardinage',
+    'segurança': 'agent de sécurité', 'porteiro': 'gardien',
+    'recepcionista': 'réceptionniste', 'vendedor': 'vendeur', 'vendedora': 'vendeuse',
+    'caixa': 'caissier', 'atendente': 'employé', 'auxiliar': 'assistant', 'ajudante': 'aide',
+    'operador': 'opérateur', 'montador': 'monteur', 'mecânico': 'mécanicien', 'mecanico': 'mécanicien',
+    'padeiro': 'boulanger', 'açougueiro': 'boucher', 'acougueiro': 'boucher',
+    'carpinteiro': 'charpentier', 'soldador': 'soudeur',
+    'técnico': 'technicien', 'tecnico': 'technicien',
+    'enfermeiro': 'infirmier', 'enfermeira': 'infirmière',
+    'professor': 'professeur', 'professora': 'professeur',
+    'secretário': 'secrétaire', 'secretaria': 'secrétaire',
+    'contador': 'comptable', 'advogado': 'avocat',
+    'programador': 'développeur', 'desenvolvedor': 'développeur',
+    'designer': 'designer', 'marketing': 'marketing', 'vendas': 'vente',
+    'administrativo': 'administratif', 'logística': 'logistique', 'logistica': 'logistique',
+    'armazém': 'entrepôt', 'armazem': 'entrepôt', 'estoque': 'stock',
+    'empilhadeira': 'cariste', 'carregador': 'manutentionnaire',
+    'mudança': 'déménagement', 'mudanca': 'déménagement',
+    'hotel': 'hôtel', 'restaurante': 'restaurant', 'bar': 'bar', 'café': 'café',
+    'padaria': 'boulangerie', 'supermercado': 'supermarché', 'loja': 'magasin',
+    'escritório': 'bureau', 'escritorio': 'bureau', 'fábrica': 'usine', 'fabrica': 'usine',
+    'obra': 'chantier', 'hospital': 'hôpital', 'clínica': 'clinique', 'clinica': 'clinique',
+    'escola': 'école', 'creche': 'crèche'
+  };
+
+  // Função para traduzir termo de busca
+  const translateSearchTerm = (term) => {
+    const lowerTerm = term.toLowerCase().trim();
+    if (jobSearchTranslations[lowerTerm]) return jobSearchTranslations[lowerTerm];
+    for (const [pt, fr] of Object.entries(jobSearchTranslations)) {
+      if (lowerTerm.includes(pt)) return lowerTerm.replace(pt, fr);
+    }
+    return term;
+  };
+
   useEffect(() => {
     fetchJobs();
     // Buscar vagas externas na inicialização
