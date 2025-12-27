@@ -250,31 +250,31 @@ export default function VolunteersPage() {
 
       {/* Modal Quero Ajudar */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="rounded-3xl max-w-lg mx-4 max-h-[90vh] overflow-y-auto bg-white p-6">
+        <DialogContent className="rounded-3xl max-w-lg mx-2 sm:mx-4 max-h-[90vh] overflow-y-auto bg-white p-4 sm:p-6">
           <DialogHeader className="pb-2">
-            <DialogTitle className="text-xl font-bold flex items-center gap-2">
-              <Heart className="w-6 h-6 text-red-500" />
+            <DialogTitle className="text-lg sm:text-xl font-bold flex items-center gap-2">
+              <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-red-500" />
               Quero Ajudar
             </DialogTitle>
-            <p className="text-sm text-gray-600 mt-1">
-              Selecione as categorias em que você pode ajudar e veja as solicitações disponíveis.
+            <p className="text-xs sm:text-sm text-gray-600 mt-1 break-words">
+              Selecione as categorias em que você pode ajudar
             </p>
           </DialogHeader>
 
           {/* Imagem inspiradora no modal */}
-          <div className="relative h-32 rounded-2xl overflow-hidden mb-4">
+          <div className="relative h-28 sm:h-32 rounded-2xl overflow-hidden mb-4">
             <img 
               src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&q=80" 
               alt="Pessoas unidas"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-              <p className="text-white text-sm font-medium">Juntos somos mais fortes 💪</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3 sm:p-4">
+              <p className="text-white text-xs sm:text-sm font-medium">Juntos somos mais fortes 💪</p>
             </div>
           </div>
 
           {/* Grid de 4 Categorias Principais */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
             {MAIN_CATEGORIES.map(cat => (
               <button
                 key={cat.value}
