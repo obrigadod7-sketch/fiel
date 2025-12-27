@@ -1979,7 +1979,7 @@ async def get_housing_listings(
     current_user: User = Depends(get_current_user)
 ):
     """Lista anúncios de hospedagem com filtros opcionais"""
-    query = {'status': 'active'}
+    query = {'listing_status': 'active'}
     
     if type and type != 'all':
         query['listing_type'] = type
