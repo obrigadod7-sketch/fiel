@@ -1075,48 +1075,53 @@ export default function HomePage() {
                       <Clock size={14} />
                       {new Date(post.created_at).toLocaleDateString('pt-BR')}
                     </span>
-                    {post.type === 'need' && (
+                    {post.type === 'need' && !post.is_job_post && (
                       <span className="text-green-600 font-medium text-xs">Precisa de ajuda</span>
                     )}
                     {post.type === 'offer' && (
                       <span className="text-primary font-medium text-xs">Oferece ajuda</span>
                     )}
+                    {post.is_job_post && (
+                      <span className="text-blue-600 font-medium text-xs">💼 Vaga de Emprego</span>
+                    )}
                   </div>
                   
-                  {/* Botões em Grid Responsivo */}
-                  <div className="grid grid-cols-2 sm:flex gap-2">
-                    {post.type === 'need' && (
+                  {/* Botões em Grid Responsivo - NÃO mostrar para posts de vagas de emprego */}
+                  {!post.is_job_post && (
+                    <div className="grid grid-cols-2 sm:flex gap-2">
+                      {post.type === 'need' && (
+                        <Button
+                          onClick={() => openResourcesModal(post.category)}
+                          size="sm"
+                          variant="outline"
+                          className="rounded-full border-primary text-primary hover:bg-primary hover:text-white text-xs sm:text-sm px-3 py-2 w-full sm:w-auto"
+                        >
+                          <Info size={14} className="sm:mr-1" />
+                          <span className="hidden sm:inline ml-1">Ver Recursos</span>
+                          <span className="sm:hidden ml-1">Recursos</span>
+                        </Button>
+                      )}
                       <Button
-                        onClick={() => openResourcesModal(post.category)}
+                        onClick={() => toggleComments(post.id)}
                         size="sm"
                         variant="outline"
-                        className="rounded-full border-primary text-primary hover:bg-primary hover:text-white text-xs sm:text-sm px-3 py-2 w-full sm:w-auto"
+                        className="rounded-full text-xs sm:text-sm px-3 py-2 w-full sm:w-auto"
                       >
-                        <Info size={14} className="sm:mr-1" />
-                        <span className="hidden sm:inline ml-1">Ver Recursos</span>
-                        <span className="sm:hidden ml-1">Recursos</span>
+                        <MessageSquare size={14} className="sm:mr-1" />
+                        <span className="ml-1">{showComments[post.id] ? 'Ocultar' : 'Comentários'}</span>
                       </Button>
-                    )}
-                    <Button
-                      onClick={() => toggleComments(post.id)}
-                      size="sm"
-                      variant="outline"
-                      className="rounded-full text-xs sm:text-sm px-3 py-2 w-full sm:w-auto"
-                    >
-                      <MessageSquare size={14} className="sm:mr-1" />
-                      <span className="ml-1">{showComments[post.id] ? 'Ocultar' : 'Comentários'}</span>
-                    </Button>
-                    {post.user_id !== user.id && post.can_help && (
-                      <Button
-                        onClick={() => navigate(`/direct-chat/${post.user_id}`)}
-                        size="sm"
-                        className="rounded-full bg-primary hover:bg-primary-hover text-white text-xs sm:text-sm px-3 py-2 w-full sm:w-auto col-span-2 sm:col-span-1"
-                      >
-                        <MessageCircle size={14} className="sm:mr-1" />
-                        <span className="ml-1">Conversar</span>
-                      </Button>
-                    )}
-                  </div>
+                      {post.user_id !== user.id && post.can_help && (
+                        <Button
+                          onClick={() => navigate(`/direct-chat/${post.user_id}`)}
+                          size="sm"
+                          className="rounded-full bg-primary hover:bg-primary-hover text-white text-xs sm:text-sm px-3 py-2 w-full sm:w-auto col-span-2 sm:col-span-1"
+                        >
+                          <MessageCircle size={14} className="sm:mr-1" />
+                          <span className="ml-1">Conversar</span>
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {showComments[post.id] && (
