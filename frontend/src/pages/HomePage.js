@@ -965,12 +965,19 @@ export default function HomePage() {
                           </div>
                         </div>
                         
-                        {/* Vagas Encontradas */}
+                        {/* Vagas Encontradas - Mostrar TODAS como na página de trabalho */}
                         {jobSearchResults.length > 0 && (
-                          <div className="space-y-2">
-                            <Label className="text-sm font-bold block">💼 Vagas Disponíveis</Label>
-                            <div className="space-y-2 max-h-48 overflow-y-auto">
-                              {jobSearchResults.slice(0, 5).map((job, idx) => (
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <Label className="text-sm font-bold flex items-center gap-2">
+                                💼 Vagas Disponíveis 
+                                <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs">
+                                  {jobSearchResults.length}
+                                </span>
+                              </Label>
+                            </div>
+                            <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                              {jobSearchResults.map((job, idx) => (
                                 <a 
                                   key={idx}
                                   href={job.url}
@@ -979,19 +986,55 @@ export default function HomePage() {
                                   className="block p-3 bg-white border border-gray-200 rounded-xl hover:border-blue-400 hover:shadow-md transition-all"
                                 >
                                   <div className="flex items-start gap-3">
-                                    <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                      <Building2 size={20} className="text-blue-600" />
-                                    </div>
+                                    {job.company_logo ? (
+                                      <img 
+                                        src={job.company_logo} 
+                                        alt={job.company}
+                                        className="w-12 h-12 rounded-lg object-contain bg-gray-50 flex-shrink-0"
+                                        onError={(e) => { e.target.style.display = 'none'; }}
+                                      />
+                                    ) : (
+                                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
+                                        <Building2 size={24} className="text-white" />
+                                      </div>
+                                    )}
                                     <div className="flex-1 min-w-0">
-                                      <p className="font-medium text-sm text-gray-800 truncate">{job.title}</p>
-                                      <p className="text-xs text-gray-500 truncate">{job.company}</p>
-                                      <p className="text-xs text-gray-400 truncate">📍 {job.location}</p>
+                                      <p className="font-bold text-sm text-gray-800 line-clamp-2">{job.title}</p>
+                                      <p className="text-xs text-gray-600 mt-0.5">🏢 {job.company}</p>
+                                      <p className="text-xs text-gray-500">📍 {job.location}</p>
+                                      {job.salary_min && (
+                                        <p className="text-xs text-green-600 font-medium mt-1">
+                                          💰 {job.salary_min}{job.salary_max ? `-${job.salary_max}` : ''} {job.salary_currency || 'EUR'}
+                                        </p>
+                                      )}
+                                      <div className="flex items-center gap-2 mt-2">
+                                        {job.is_remote && (
+                                          <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs">
+                                            🏠 Remoto
+                                          </span>
+                                        )}
+                                        <span className="text-xs text-gray-400">
+                                          {job.date_posted || 'Recente'}
+                                        </span>
+                                      </div>
                                     </div>
-                                    <ExternalLink size={16} className="text-gray-400 flex-shrink-0" />
+                                    <div className="flex flex-col items-end gap-2">
+                                      <ExternalLink size={16} className="text-blue-500" />
+                                      <span className="text-xs text-blue-600 font-medium">Ver</span>
+                                    </div>
                                   </div>
                                 </a>
                               ))}
                             </div>
+                          </div>
+                        )}
+                        
+                        {/* Mensagem se não encontrou vagas */}
+                        {jobSearchResults.length === 0 && (
+                          <div className="text-center py-6 bg-gray-50 rounded-xl">
+                            <Search size={32} className="mx-auto text-gray-400 mb-2" />
+                            <p className="text-sm text-gray-600">Nenhuma vaga encontrada</p>
+                            <p className="text-xs text-gray-500 mt-1">Tente outros termos de busca</p>
                           </div>
                         )}
                         
