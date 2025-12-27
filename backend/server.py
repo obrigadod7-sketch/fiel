@@ -194,6 +194,45 @@ class Match(BaseModel):
     status: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+# Housing Models
+class HousingListing(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    listing_type: str  # 'offer' or 'need'
+    title: str
+    description: Optional[str] = None
+    city: str
+    address: Optional[str] = None
+    accommodation_type: str = 'room'  # room, sofa, house, shared
+    duration: str = 'temporary'  # emergency, temporary, long_term, exchange
+    max_guests: int = 1
+    amenities: List[str] = []
+    pets_allowed: bool = False
+    available_from: Optional[str] = None
+    available_until: Optional[str] = None
+    exchange_services: Optional[str] = None
+    photos: List[str] = []
+    status: str = 'active'  # active, matched, closed
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class HousingListingCreate(BaseModel):
+    listing_type: str
+    title: str
+    description: Optional[str] = None
+    city: str
+    address: Optional[str] = None
+    accommodation_type: str = 'room'
+    duration: str = 'temporary'
+    max_guests: int = 1
+    amenities: List[str] = []
+    pets_allowed: bool = False
+    available_from: Optional[str] = None
+    available_until: Optional[str] = None
+    exchange_services: Optional[str] = None
+    photos: List[str] = []
+
 def create_token(user_id: str, email: str) -> str:
     payload = {
         'user_id': user_id,
