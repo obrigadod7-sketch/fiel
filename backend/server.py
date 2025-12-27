@@ -1970,6 +1970,158 @@ async def get_personalized_jobs(current_user: User = Depends(get_current_user)):
         }
     }
 
+# ==================== HOUSING ENDPOINTS ====================
+
+@api_router.get("/housing")
+async def get_housing_listings(
+    type: Optional[str] = None,
+    city: Optional[str] = None,
+    current_user: User = Depends(get_current_user)
+):
+    """Lista anúncios de hospedagem com filtros opcionais"""
+    query = {'status': 'active'}
+    
+    if type and type != 'all':
+        query['listing_type'] = type
+    
+    if city:
+        query['city'] = {'$regex': city, '$options': 'i'}
+    
+    listings = await db.housing_listings.find(query, {'_id': 0}).sort('created_at', -1).to_list(100)
+    
+    # Adicionar info do usuário a cada listing
+    for listing in listings:
+        user = await db.users.find_one({'id': listing['user_id']}, {'_id': 0, 'password': 0})
+        if user:
+            listing['user'] = {
+                'id': user.get('id'),
+                'name': user.get('name'),
+                'verified': user.get('verified', False),
+                'rating': user.get('rating', 4.5),
+                'reviews_count': user.get('reviews_count', 0)
+            }
+    
+    return listings
+
+@api_router.post("/housing")
+async def create_housing_listing(
+    listing_data: HousingListingCreate,
+    current_user: User = Depends(get_current_user)
+):
+    """Cria um novo anúncio de hospedagem"""
+    listing = HousingListing(
+        user_id=current_user.id,
+        listing_type=listing_data.listing_type,
+        title=listing_data.title,
+        description=listing_data.description,
+        city=listing_data.city,
+        address=listing_data.address,
+        accommodation_type=listing_data.accommodation_type,
+        duration=listing_data.duration,
+        max_guests=listing_data.max_guests,
+        amenities=listing_data.amenities,
+        pets_allowed=listing_data.pets_allowed,
+        available_from=listing_data.available_from,
+        available_until=listing_data.available_until,
+        exchange_services=listing_data.exchange_services,
+        photos=listing_data.photos
+    )
+    
+    await db.housing_listings.insert_one(listing.model_dump())
+    
+    return {'message': 'Anúncio criado com sucesso', 'id': listing.id}
+
+@api_router.get("/housing/{listing_id}")
+async def get_housing_listing(
+    listing_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """Retorna detalhes de um anúncio específico"""
+    listing = await db.housing_listings.find_one({'id': listing_id}, {'_id': 0})
+    
+    if not listing:
+        raise HTTPException(status_code=404, detail="Anúncio não encontrado")
+    
+    # Adicionar info do usuário
+    user = await db.users.find_one({'id': listing['user_id']}, {'_id': 0, 'password': 0})
+    if user:
+        listing['user'] = {
+            'id': user.get('id'),
+            'name': user.get('name'),
+            'email': user.get('email'),
+            'phone': user.get('phone'),
+            'verified': user.get('verified', False),
+            'rating': user.get('rating', 4.5),
+            'reviews_count': user.get('reviews_count', 0)
+        }
+    
+    return listing
+
+@api_router.put("/housing/{listing_id}")
+async def update_housing_listing(
+    listing_id: str,
+    listing_data: HousingListingCreate,
+    current_user: User = Depends(get_current_user)
+):
+    """Atualiza um anúncio de hospedagem"""
+    listing = await db.housing_listings.find_one({'id': listing_id})
+    
+    if not listing:
+        raise HTTPException(status_code=404, detail="Anúncio não encontrado")
+    
+    if listing['user_id'] != current_user.id and current_user.role != 'admin':
+        raise HTTPException(status_code=403, detail="Sem permissão para editar este anúncio")
+    
+    update_data = listing_data.model_dump()
+    update_data['updated_at'] = datetime.now(timezone.utc).isoformat()
+    
+    await db.housing_listings.update_one(
+        {'id': listing_id},
+        {'$set': update_data}
+    )
+    
+    return {'message': 'Anúncio atualizado com sucesso'}
+
+@api_router.delete("/housing/{listing_id}")
+async def delete_housing_listing(
+    listing_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """Remove um anúncio de hospedagem"""
+    listing = await db.housing_listings.find_one({'id': listing_id})
+    
+    if not listing:
+        raise HTTPException(status_code=404, detail="Anúncio não encontrado")
+    
+    if listing['user_id'] != current_user.id and current_user.role != 'admin':
+        raise HTTPException(status_code=403, detail="Sem permissão para remover este anúncio")
+    
+    await db.housing_listings.delete_one({'id': listing_id})
+    
+    return {'message': 'Anúncio removido com sucesso'}
+
+@api_router.put("/housing/{listing_id}/status")
+async def update_housing_status(
+    listing_id: str,
+    status: str,
+    current_user: User = Depends(get_current_user)
+):
+    """Atualiza o status de um anúncio (active, matched, closed)"""
+    listing = await db.housing_listings.find_one({'id': listing_id})
+    
+    if not listing:
+        raise HTTPException(status_code=404, detail="Anúncio não encontrado")
+    
+    if listing['user_id'] != current_user.id and current_user.role != 'admin':
+        raise HTTPException(status_code=403, detail="Sem permissão para alterar este anúncio")
+    
+    await db.housing_listings.update_one(
+        {'id': listing_id},
+        {'$set': {'status': status, 'updated_at': datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    return {'message': f'Status atualizado para {status}'}
+
 app.include_router(api_router)
 
 # Health check na raiz para o Render
