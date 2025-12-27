@@ -999,25 +999,25 @@ export default function HomePage() {
               <div 
                 key={post.id} 
                 data-testid="post-card"
-                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-card card-hover overflow-hidden"
+                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-card card-hover overflow-hidden max-w-full"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                <div className="flex items-start justify-between mb-3 gap-2">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
                       <User size={20} className="text-white" />
                     </div>
-                    <div>
-                      <p className="font-medium text-textPrimary">{post.user?.name}</p>
-                      <p className="text-sm text-textMuted capitalize">{post.user?.role}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-textPrimary truncate">{post.user?.name}</p>
+                      <p className="text-sm text-textMuted capitalize truncate">{post.user?.role}</p>
                     </div>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryStyle(post.category)} flex items-center gap-1`}>
+                  <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium border ${getCategoryStyle(post.category)} flex items-center gap-1 flex-shrink-0 whitespace-nowrap`}>
                     <span>{getCategoryIcon(post.category)}</span>
-                    {categories.find(c => c.value === post.category)?.label}
+                    <span className="hidden sm:inline">{categories.find(c => c.value === post.category)?.label}</span>
                   </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-textPrimary mb-2 break-words">{post.title}</h3>
-                <p className="text-sm sm:text-base text-textSecondary mb-3 leading-relaxed break-words">{post.description}</p>
+                <h3 className="text-base sm:text-lg font-bold text-textPrimary mb-2 break-words overflow-hidden">{post.title}</h3>
+                <p className="text-sm sm:text-base text-textSecondary mb-3 leading-relaxed break-words overflow-hidden whitespace-pre-wrap">{post.description}</p>
 
                 {post.images && post.images.length > 0 && (
                   <div className={`mb-3 ${post.images.length === 1 ? '' : 'grid grid-cols-2 gap-2'}`}>
