@@ -650,6 +650,11 @@ const resources = {
       fillRequiredFields: 'Remplissez les champs obligatoires',
       verified: 'Vérifié',
       contact: 'Contacter',
+      guests: 'invités',
+      free: 'Gratuit',
+      solidaryHosting: 'Hébergement solidaire',
+      searchingHost: 'Recherche un hôte',
+      otherCity: 'Autre ville...',
       
       // Status & Messages
       loading: 'Chargement...',
