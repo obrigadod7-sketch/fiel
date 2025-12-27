@@ -126,6 +126,10 @@ export default function HomePage() {
   const [jobSearchResults, setJobSearchResults] = useState([]);
   const [loadingJobs, setLoadingJobs] = useState(false);
   
+  // Vagas personalizadas do usuário
+  const [personalizedJobs, setPersonalizedJobs] = useState([]);
+  const [jobPreferences, setJobPreferences] = useState(null);
+  
   const [newPost, setNewPost] = useState({
     type: user?.role === 'migrant' ? 'need' : 'offer',
     category: 'food',
