@@ -1504,8 +1504,8 @@ export default function HomePage() {
                           className="rounded-full border-primary text-primary hover:bg-primary hover:text-white text-xs sm:text-sm px-3 py-2 w-full sm:w-auto"
                         >
                           <Info size={14} className="sm:mr-1" />
-                          <span className="hidden sm:inline ml-1">Ver Recursos</span>
-                          <span className="sm:hidden ml-1">Recursos</span>
+                          <span className="hidden sm:inline ml-1">{t('viewResources')}</span>
+                          <span className="sm:hidden ml-1">{t('resources')}</span>
                         </Button>
                       )}
                       <Button
