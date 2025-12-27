@@ -704,8 +704,8 @@ export default function HomePage() {
           <div className="hidden lg:block w-80 flex-shrink-0 space-y-4">
             {/* Header da Sidebar */}
             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-4 shadow-lg">
-              <h3 className="font-bold text-sm">📢 Anúncios & Oportunidades</h3>
-              <p className="text-xs text-white/80 mt-1">Vagas de emprego e mensagens para você</p>
+              <h3 className="font-bold text-sm">📢 {t('advertisementsTitle')}</h3>
+              <p className="text-xs text-white/80 mt-1">{t('jobsAndMessagesDesc')}</p>
             </div>
 
             {/* Renderizar anúncios */}
@@ -738,7 +738,7 @@ export default function HomePage() {
                             rel="noopener noreferrer"
                             className="block w-full text-center py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-colors"
                           >
-                            {item.link_text || 'Ver Vaga'} →
+                            {item.link_text || t('viewJob')} →
                           </a>
                         )}
                       </div>
@@ -770,7 +770,7 @@ export default function HomePage() {
                             rel="noopener noreferrer"
                             className="block w-full text-center py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl text-sm transition-colors"
                           >
-                            {item.link_text || 'Doar Agora'} →
+                            {item.link_text || t('donateNow')} →
                           </a>
                         )}
                       </div>
