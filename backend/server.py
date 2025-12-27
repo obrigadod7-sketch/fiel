@@ -2117,7 +2117,7 @@ async def update_housing_status(
     
     await db.housing_listings.update_one(
         {'id': listing_id},
-        {'$set': {'status': new_status, 'updated_at': datetime.now(timezone.utc).isoformat()}}
+        {'$set': {'listing_status': new_status, 'updated_at': datetime.now(timezone.utc).isoformat()}}
     )
     
     return {'message': f'Status atualizado para {new_status}'}
