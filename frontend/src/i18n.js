@@ -318,7 +318,6 @@ const resources = {
       youWillReceivePersonalizedJobs: 'Você receberá vagas personalizadas de',
       noJobsFound: 'Nenhuma vaga encontrada',
       tryOtherSearchTerms: 'Tente outros termos de busca',
-      viewJob: 'Ver',
       viewAllJobs: 'Ver todas as vagas',
       remote: 'Remoto',
       update: 'Atualizar',
