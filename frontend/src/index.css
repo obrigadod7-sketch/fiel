@@ -19,8 +19,14 @@ body {
 }
 
 /* Quebrar URLs longas corretamente */
-a, p, span, div, h1, h2, h3, h4, h5, h6 {
+a, p, span, div {
     word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+/* Forçar quebra de URLs em todos os lugares */
+.break-all-urls a {
+    word-break: break-all;
 }
 
 /* Garantir max-width em containers de texto */
@@ -28,6 +34,15 @@ a, p, span, div, h1, h2, h3, h4, h5, h6 {
     word-break: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
+}
+
+/* Card de posts - forçar quebra de texto */
+[data-testid="post-card"] p,
+[data-testid="post-card"] span,
+[data-testid="post-card"] a {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
