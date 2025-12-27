@@ -1515,7 +1515,7 @@ export default function HomePage() {
                         className="rounded-full text-xs sm:text-sm px-3 py-2 w-full sm:w-auto"
                       >
                         <MessageSquare size={14} className="sm:mr-1" />
-                        <span className="ml-1">{showComments[post.id] ? 'Ocultar' : 'Comentários'}</span>
+                        <span className="ml-1">{showComments[post.id] ? t('hideMap') : t('commentsBtn')}</span>
                       </Button>
                       {post.user_id !== user.id && post.can_help && (
                         <Button
@@ -1524,7 +1524,7 @@ export default function HomePage() {
                           className="rounded-full bg-primary hover:bg-primary-hover text-white text-xs sm:text-sm px-3 py-2 w-full sm:w-auto col-span-2 sm:col-span-1"
                         >
                           <MessageCircle size={14} className="sm:mr-1" />
-                          <span className="ml-1">Conversar</span>
+                          <span className="ml-1">{t('chatBtn')}</span>
                         </Button>
                       )}
                     </div>
@@ -1549,12 +1549,12 @@ export default function HomePage() {
                         </div>
                       ))
                     ) : (
-                      <p className="text-sm text-textMuted text-center py-2">Nenhum comentário ainda</p>
+                      <p className="text-sm text-textMuted text-center py-2">{t('noMessagesYet')}</p>
                     )}
 
                     <div className="flex gap-2 mt-3">
                       <Input
-                        placeholder="Escreva um comentário..."
+                        placeholder={t('askQuestion')}
                         value={commentingOn === post.id ? newComment : ''}
                         onChange={(e) => {
                           setCommentingOn(post.id);
