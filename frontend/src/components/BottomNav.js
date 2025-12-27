@@ -2,19 +2,21 @@ import React, { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, MessageCircle, Search, User, Settings, Users, MapPin, Briefcase } from 'lucide-react';
 import { AuthContext } from '../App';
+import { useTranslation } from 'react-i18next';
 
 export default function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useContext(AuthContext);
+  const { t } = useTranslation();
 
   const navItems = [
     { icon: Home, label: 'Home', path: '/home', testId: 'nav-home' },
-    { icon: Briefcase, label: 'Trabalho', path: '/jobs', testId: 'nav-jobs' },
-    { icon: Users, label: 'Ajudar', path: '/volunteers', testId: 'nav-volunteers' },
-    { icon: MessageCircle, label: 'Chat IA', path: '/chat', testId: 'nav-chat' },
-    { icon: MapPin, label: 'Mapa', path: '/nearby', testId: 'nav-nearby' },
-    { icon: User, label: 'Perfil', path: '/profile', testId: 'nav-profile' },
+    { icon: Briefcase, label: t('work'), path: '/jobs', testId: 'nav-jobs' },
+    { icon: Users, label: t('volunteers'), path: '/volunteers', testId: 'nav-volunteers' },
+    { icon: MessageCircle, label: t('chat'), path: '/chat', testId: 'nav-chat' },
+    { icon: MapPin, label: t('map'), path: '/nearby', testId: 'nav-nearby' },
+    { icon: User, label: t('profile'), path: '/profile', testId: 'nav-profile' },
   ];
 
   if (user?.role === 'admin') {
