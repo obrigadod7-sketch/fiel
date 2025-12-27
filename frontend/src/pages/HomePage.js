@@ -913,12 +913,13 @@ export default function HomePage() {
                           <Input
                             value={jobSearchQuery}
                             onChange={(e) => setJobSearchQuery(e.target.value)}
-                            placeholder="Ex: Garçom, Limpeza, Construção..."
+                            placeholder="Ex: Garçom, Limpeza, Cozinheiro..."
                             className="rounded-xl h-12 text-base w-full"
                             onKeyPress={(e) => e.key === 'Enter' && searchJobsForUser()}
                           />
+                          <p className="text-xs text-gray-500 mt-1">💡 Digite em português - traduzimos automaticamente!</p>
                           <div className="flex flex-wrap gap-2 mt-3">
-                            {['Garçom', 'Limpeza', 'Construção', 'Cozinha', 'Entrega'].map(tag => (
+                            {['Garçom', 'Cozinheiro', 'Limpeza', 'Motorista', 'Construção', 'Vendedor', 'Caixa', 'Entregador'].map(tag => (
                               <button
                                 key={tag}
                                 onClick={() => setJobSearchQuery(tag)}
