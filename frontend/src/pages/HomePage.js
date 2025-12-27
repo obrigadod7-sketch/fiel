@@ -1017,7 +1017,7 @@ export default function HomePage() {
                   </span>
                 </div>
                 <h3 className="text-base sm:text-lg font-bold text-textPrimary mb-2 break-words overflow-hidden">{post.title}</h3>
-                <p className="text-sm sm:text-base text-textSecondary mb-3 leading-relaxed break-words overflow-hidden whitespace-pre-wrap">{post.description}</p>
+                <p className="text-sm sm:text-base text-textSecondary mb-3 leading-relaxed overflow-hidden whitespace-pre-wrap" style={{wordBreak: 'break-word', overflowWrap: 'anywhere'}}>{post.description}</p>
 
                 {post.images && post.images.length > 0 && (
                   <div className={`mb-3 ${post.images.length === 1 ? '' : 'grid grid-cols-2 gap-2'}`}>
