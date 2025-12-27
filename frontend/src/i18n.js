@@ -1208,6 +1208,9 @@ const resources = {
       next: 'Siguiente',
       previous: 'Anterior',
       nearestLocation: 'Ubicación Más Cercana',
+      viewResources: 'Ver Recursos',
+      resources: 'Recursos',
+      update: 'Actualizar',
       
       // Roles & Users
       migrant: 'Migrante',
