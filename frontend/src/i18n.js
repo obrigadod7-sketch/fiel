@@ -661,6 +661,12 @@ const resources = {
       solidaryHosting: 'Hébergement solidaire',
       searchingHost: 'Recherche un hôte',
       otherCity: 'Autre ville...',
+      availability: 'Disponibilité',
+      availableFrom: 'À partir du',
+      availableUntil: "Jusqu'au",
+      from: 'Du',
+      until: 'Au',
+      availabilityHint: 'Définissez quand votre espace est disponible pour recevoir des invités',
       
       // Status & Messages
       loading: 'Chargement...',
