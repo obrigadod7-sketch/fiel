@@ -926,7 +926,362 @@ export default function AdminDashboard() {
             )}
           </div>
         )}
+
+        {/* Housing Tab */}
+        {activeTab === 'housing' && (
+          <div className="space-y-6">
+            {/* Housing Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-white rounded-2xl p-4 shadow-sm border">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                    <Home size={24} className="text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-green-600">
+                      {housingListings.filter(l => l.listing_type === 'offer').length}
+                    </p>
+                    <p className="text-xs text-gray-500">Ofertas de Hospedagem</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white rounded-2xl p-4 shadow-sm border">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
+                    <Search size={24} className="text-orange-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-orange-600">
+                      {housingListings.filter(l => l.listing_type === 'need').length}
+                    </p>
+                    <p className="text-xs text-gray-500">Pedidos de Hospedagem</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white rounded-2xl p-4 shadow-sm border">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
+                    <CheckCircle size={24} className="text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-purple-600">
+                      {housingListings.filter(l => l.listing_status === 'matched').length}
+                    </p>
+                    <p className="text-xs text-gray-500">Conexões Realizadas</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white rounded-2xl p-4 shadow-sm border">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <BarChart3 size={24} className="text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-blue-600">
+                      {housingListings.length}
+                    </p>
+                    <p className="text-xs text-gray-500">Total de Anúncios</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Filters */}
+            <div className="flex gap-2 flex-wrap">
+              {[
+                { id: 'all', label: 'Todos', icon: '📋' },
+                { id: 'offer', label: 'Ofertas', icon: '🏡' },
+                { id: 'need', label: 'Pedidos', icon: '🔍' },
+                { id: 'matched', label: 'Conectados', icon: '✅' },
+              ].map(filter => (
+                <button
+                  key={filter.id}
+                  onClick={() => setHousingFilter(filter.id)}
+                  className={`px-4 py-2 rounded-xl font-medium transition-all flex items-center gap-2 ${
+                    housingFilter === filter.id
+                      ? 'bg-primary text-white'
+                      : 'bg-white text-gray-600 border hover:bg-gray-50'
+                  }`}
+                >
+                  <span>{filter.icon}</span>
+                  {filter.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Housing Listings Table */}
+            <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="text-left p-4 text-sm font-semibold text-gray-600">Tipo</th>
+                      <th className="text-left p-4 text-sm font-semibold text-gray-600">Título</th>
+                      <th className="text-left p-4 text-sm font-semibold text-gray-600">Cidade</th>
+                      <th className="text-left p-4 text-sm font-semibold text-gray-600">Usuário</th>
+                      <th className="text-left p-4 text-sm font-semibold text-gray-600">Disponibilidade</th>
+                      <th className="text-left p-4 text-sm font-semibold text-gray-600">Status</th>
+                      <th className="text-left p-4 text-sm font-semibold text-gray-600">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    {housingListings
+                      .filter(listing => {
+                        if (housingFilter === 'all') return true;
+                        if (housingFilter === 'matched') return listing.listing_status === 'matched';
+                        return listing.listing_type === housingFilter;
+                      })
+                      .map(listing => (
+                        <tr key={listing.id} className="hover:bg-gray-50">
+                          <td className="p-4">
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                              listing.listing_type === 'offer'
+                                ? 'bg-green-100 text-green-700'
+                                : 'bg-orange-100 text-orange-700'
+                            }`}>
+                              {listing.listing_type === 'offer' ? '🏡 Oferta' : '🔍 Pedido'}
+                            </span>
+                          </td>
+                          <td className="p-4">
+                            <p className="font-medium text-gray-800 line-clamp-1">{listing.title}</p>
+                            <p className="text-xs text-gray-500">
+                              {listing.accommodation_type === 'room' ? '🛏️ Quarto' :
+                               listing.accommodation_type === 'house' ? '🏠 Casa' :
+                               listing.accommodation_type === 'sofa' ? '🛋️ Sofá' : '👥 Compartilhado'}
+                              {listing.duration === 'exchange' && ' · 🤝 Troca'}
+                            </p>
+                          </td>
+                          <td className="p-4">
+                            <span className="text-sm text-gray-600">📍 {listing.city}</span>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex items-center gap-2">
+                              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                                <Users size={14} className="text-white" />
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium">{listing.user?.name || 'Usuário'}</p>
+                                <p className="text-xs text-gray-500">{listing.user?.email}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="p-4">
+                            {listing.available_from ? (
+                              <div className="text-xs">
+                                <p className="text-gray-600">
+                                  📅 {new Date(listing.available_from).toLocaleDateString('pt-BR')}
+                                </p>
+                                {listing.available_until && (
+                                  <p className="text-gray-500">
+                                    → {new Date(listing.available_until).toLocaleDateString('pt-BR')}
+                                  </p>
+                                )}
+                              </div>
+                            ) : (
+                              <span className="text-xs text-gray-400">Não definido</span>
+                            )}
+                          </td>
+                          <td className="p-4">
+                            <select
+                              value={listing.listing_status || 'active'}
+                              onChange={(e) => updateHousingStatus(listing.id, e.target.value)}
+                              className={`px-3 py-1 rounded-lg text-xs font-medium border-0 cursor-pointer ${
+                                listing.listing_status === 'matched' ? 'bg-purple-100 text-purple-700' :
+                                listing.listing_status === 'closed' ? 'bg-gray-100 text-gray-600' :
+                                'bg-green-100 text-green-700'
+                              }`}
+                            >
+                              <option value="active">✓ Ativo</option>
+                              <option value="matched">🤝 Conectado</option>
+                              <option value="closed">✕ Fechado</option>
+                            </select>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => {
+                                  setSelectedHousing(listing);
+                                  setShowHousingDetailDialog(true);
+                                }}
+                                className="p-2 hover:bg-gray-100 rounded-lg text-blue-600"
+                                title="Ver detalhes"
+                              >
+                                <Eye size={16} />
+                              </button>
+                              <button
+                                onClick={() => deleteHousingListing(listing.id)}
+                                className="p-2 hover:bg-gray-100 rounded-lg text-red-600"
+                                title="Remover"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              {housingListings.length === 0 && (
+                <div className="text-center py-12">
+                  <Home size={48} className="mx-auto text-gray-300 mb-4" />
+                  <p className="text-gray-500">Nenhum anúncio de hospedagem cadastrado</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Housing Detail Dialog */}
+      <Dialog open={showHousingDetailDialog} onOpenChange={setShowHousingDetailDialog}>
+        <DialogContent className="rounded-2xl max-w-2xl max-h-[90vh] overflow-y-auto">
+          {selectedHousing && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2">
+                  <Home size={24} className={selectedHousing.listing_type === 'offer' ? 'text-green-600' : 'text-orange-600'} />
+                  {selectedHousing.title}
+                </DialogTitle>
+                <DialogDescription>
+                  {selectedHousing.listing_type === 'offer' ? '🏡 Oferta de Hospedagem' : '🔍 Pedido de Hospedagem'} em {selectedHousing.city}
+                </DialogDescription>
+              </DialogHeader>
+              
+              <div className="space-y-4 mt-4">
+                {/* Info Cards */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-gray-50 rounded-xl p-3 text-center">
+                    <p className="text-2xl mb-1">
+                      {selectedHousing.accommodation_type === 'room' ? '🛏️' :
+                       selectedHousing.accommodation_type === 'house' ? '🏠' :
+                       selectedHousing.accommodation_type === 'sofa' ? '🛋️' : '👥'}
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      {selectedHousing.accommodation_type === 'room' ? 'Quarto Privado' :
+                       selectedHousing.accommodation_type === 'house' ? 'Casa Inteira' :
+                       selectedHousing.accommodation_type === 'sofa' ? 'Sofá' : 'Quarto Compartilhado'}
+                    </p>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-3 text-center">
+                    <p className="text-2xl mb-1">👥</p>
+                    <p className="text-xs text-gray-600">{selectedHousing.max_guests} hóspede(s)</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-3 text-center">
+                    <p className="text-2xl mb-1">
+                      {selectedHousing.duration === 'emergency' ? '🆘' :
+                       selectedHousing.duration === 'temporary' ? '📅' :
+                       selectedHousing.duration === 'long_term' ? '🏡' : '🤝'}
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      {selectedHousing.duration === 'emergency' ? 'Emergência' :
+                       selectedHousing.duration === 'temporary' ? 'Temporário' :
+                       selectedHousing.duration === 'long_term' ? 'Longo Prazo' : 'Troca de Serviços'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Availability */}
+                {(selectedHousing.available_from || selectedHousing.available_until) && (
+                  <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+                    <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
+                      📅 Disponibilidade
+                    </h4>
+                    <div className="flex gap-4">
+                      {selectedHousing.available_from && (
+                        <div>
+                          <p className="text-xs text-gray-500">De</p>
+                          <p className="font-medium text-blue-700">
+                            {new Date(selectedHousing.available_from).toLocaleDateString('pt-BR')}
+                          </p>
+                        </div>
+                      )}
+                      {selectedHousing.available_until && (
+                        <div>
+                          <p className="text-xs text-gray-500">Até</p>
+                          <p className="font-medium text-blue-700">
+                            {new Date(selectedHousing.available_until).toLocaleDateString('pt-BR')}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Description */}
+                <div>
+                  <h4 className="font-semibold text-sm mb-2">Descrição</h4>
+                  <p className="text-gray-600 text-sm">{selectedHousing.description || 'Sem descrição'}</p>
+                </div>
+
+                {/* Exchange Services */}
+                {selectedHousing.exchange_services && (
+                  <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
+                    <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
+                      🤝 Serviços em Troca
+                    </h4>
+                    <p className="text-gray-600 text-sm">{selectedHousing.exchange_services}</p>
+                  </div>
+                )}
+
+                {/* Amenities */}
+                {selectedHousing.amenities && selectedHousing.amenities.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-sm mb-2">Comodidades</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedHousing.amenities.map(amenity => (
+                        <span key={amenity} className="px-3 py-1 bg-gray-100 rounded-full text-xs">
+                          {amenity === 'wifi' ? '📶 WiFi' :
+                           amenity === 'kitchen' ? '🍳 Cozinha' :
+                           amenity === 'washing' ? '🧺 Lavadora' :
+                           amenity === 'heating' ? '🔥 Aquecimento' :
+                           amenity === 'parking' ? '🅿️ Estacionamento' : '♿ Acessível'}
+                        </span>
+                      ))}
+                      {selectedHousing.pets_allowed && (
+                        <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs">🐾 Aceita Pets</span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* User Info */}
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h4 className="font-semibold text-sm mb-3">Informações do Usuário</h4>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                      <Users size={20} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-medium">{selectedHousing.user?.name || 'Usuário'}</p>
+                      <p className="text-sm text-gray-500">{selectedHousing.user?.email}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-3 pt-4 border-t">
+                  <Button
+                    onClick={() => deleteHousingListing(selectedHousing.id)}
+                    variant="outline"
+                    className="flex-1 rounded-xl text-red-600 border-red-200 hover:bg-red-50"
+                  >
+                    <Trash2 size={16} className="mr-2" />
+                    Remover Anúncio
+                  </Button>
+                  <Button
+                    onClick={() => setShowHousingDetailDialog(false)}
+                    className="flex-1 rounded-xl"
+                  >
+                    Fechar
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Add Admin Dialog */}
       <Dialog open={showAddAdminDialog} onOpenChange={setShowAddAdminDialog}>
