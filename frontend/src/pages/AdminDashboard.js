@@ -62,12 +62,19 @@ export default function AdminDashboard() {
     languages: ['pt', 'en', 'fr']
   });
   const [addingAdmin, setAddingAdmin] = useState(false);
+  
+  // Estado para Housing Management
+  const [housingListings, setHousingListings] = useState([]);
+  const [housingFilter, setHousingFilter] = useState('all');
+  const [showHousingDetailDialog, setShowHousingDetailDialog] = useState(false);
+  const [selectedHousing, setSelectedHousing] = useState(null);
 
   useEffect(() => {
     fetchStats();
     fetchUsers();
     fetchPosts();
     fetchAdvertisements();
+    fetchHousingListings();
   }, []);
 
   const fetchStats = async () => {
