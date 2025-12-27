@@ -1045,10 +1045,10 @@ export default function HomePage() {
                         </button>
                         <div>
                           <DialogTitle className="text-lg sm:text-xl font-heading">
-                            🎯 Vagas Encontradas
+                            🎯 {t('jobsFoundTitle')}
                           </DialogTitle>
                           <DialogDescription className="text-xs sm:text-sm">
-                            {jobSearchResults.length} vagas para &ldquo;{jobSearchQuery}&rdquo; em {jobSearchLocation || 'França'}
+                            {jobSearchResults.length} {t('jobVacancies').toLowerCase()} &ldquo;{jobSearchQuery}&rdquo; - {jobSearchLocation || 'France'}
                           </DialogDescription>
                         </div>
                       </div>
@@ -1063,25 +1063,25 @@ export default function HomePage() {
                               <User size={20} className="text-white" />
                             </div>
                             <div>
-                              <p className="font-bold text-sm text-green-800">Seu Perfil no Feed</p>
-                              <p className="text-xs text-green-600">Resumido e direto ao ponto</p>
+                              <p className="font-bold text-sm text-green-800">{t('yourFeedProfileTitle')}</p>
+                              <p className="text-xs text-green-600">{t('summarizedDirectTitle')}</p>
                             </div>
                           </div>
                           <div className="bg-white rounded-xl p-3 space-y-1">
-                            <p className="font-bold text-sm text-gray-800">🔍 Procuro: {jobSearchQuery}</p>
-                            <p className="text-xs text-gray-600">📍 {jobSearchLocation || 'França'}</p>
+                            <p className="font-bold text-sm text-gray-800">🔍 {t('lookingForLabel')}: {jobSearchQuery}</p>
+                            <p className="text-xs text-gray-600">📍 {jobSearchLocation || 'France'}</p>
                             {newPost.job_availability && (
                               <p className="text-xs text-gray-600">⏰ {
-                                newPost.job_availability === 'full_time' ? 'Tempo Integral' :
-                                newPost.job_availability === 'part_time' ? 'Meio Período' :
-                                newPost.job_availability === 'flexible' ? 'Horário Flexível' : 'Finais de Semana'
+                                newPost.job_availability === 'full_time' ? t('fullTimeOption') :
+                                newPost.job_availability === 'part_time' ? t('partTimeOption') :
+                                newPost.job_availability === 'flexible' ? t('flexibleOption') : t('weekendsOption')
                               }</p>
                             )}
                             {newPost.job_experience && (
                               <p className="text-xs text-gray-600">📋 {
-                                newPost.job_experience === 'none' ? 'Sem experiência' :
-                                newPost.job_experience === '1year' ? '1 ano de experiência' :
-                                newPost.job_experience === '2years' ? '2+ anos' : '5+ anos'
+                                newPost.job_experience === 'none' ? t('noExperienceOption') :
+                                newPost.job_experience === '1year' ? t('oneYearOption') :
+                                newPost.job_experience === '2years' ? t('twoYearsPlusOption') : t('fiveYearsPlusOption')
                               }</p>
                             )}
                           </div>
@@ -1089,33 +1089,33 @@ export default function HomePage() {
                         
                         {/* Informações Adicionais */}
                         <div className="bg-white border-2 border-gray-200 p-4 rounded-2xl space-y-3">
-                          <Label className="text-sm font-bold block">📋 Complete seu perfil</Label>
+                          <Label className="text-sm font-bold block">📋 {t('completeYourProfileTitle')}</Label>
                           
                           {/* Experiência */}
                           <div>
-                            <Label className="text-xs text-gray-600 mb-1 block">Experiência</Label>
+                            <Label className="text-xs text-gray-600 mb-1 block">{t('experienceLabel')}</Label>
                             <Select value={newPost.job_experience} onValueChange={(val) => setNewPost({...newPost, job_experience: val})}>
                               <SelectTrigger className="rounded-xl">
-                                <SelectValue placeholder="Selecione..." />
+                                <SelectValue placeholder={t('select')} />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="none">Sem experiência</SelectItem>
-                                <SelectItem value="1year">1 ano</SelectItem>
-                                <SelectItem value="2years">2+ anos</SelectItem>
-                                <SelectItem value="5years">5+ anos</SelectItem>
+                                <SelectItem value="none">{t('noExperienceOption')}</SelectItem>
+                                <SelectItem value="1year">{t('oneYearOption')}</SelectItem>
+                                <SelectItem value="2years">{t('twoYearsPlusOption')}</SelectItem>
+                                <SelectItem value="5years">{t('fiveYearsPlusOption')}</SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
                           
                           {/* Disponibilidade */}
                           <div>
-                            <Label className="text-xs text-gray-600 mb-1 block">Disponibilidade</Label>
+                            <Label className="text-xs text-gray-600 mb-1 block">{t('availabilityLabel')}</Label>
                             <div className="grid grid-cols-2 gap-2">
                               {[
-                                { value: 'full_time', label: 'Tempo Integral' },
-                                { value: 'part_time', label: 'Meio Período' },
-                                { value: 'flexible', label: 'Flexível' },
-                                { value: 'weekends', label: 'Finais de Semana' }
+                                { value: 'full_time', label: t('fullTimeOption') },
+                                { value: 'part_time', label: t('partTimeOption') },
+                                { value: 'flexible', label: t('flexibleOption') },
+                                { value: 'weekends', label: t('weekendsOption') }
                               ].map(opt => (
                                 <button
                                   key={opt.value}
@@ -1140,13 +1140,13 @@ export default function HomePage() {
                             <div className="flex items-center justify-between sticky top-0 bg-white py-2 z-10">
                               <div className="flex items-center gap-2">
                                 <Label className="text-sm font-bold flex items-center gap-2">
-                                  💼 Vagas Disponíveis 
+                                  💼 {t('jobsAvailableTitle')} 
                                   <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs">
                                     {jobSearchResults.length}
                                   </span>
                                 </Label>
                               </div>
-                              <span className="text-xs text-gray-400">Role para ver mais ↓</span>
+                              <span className="text-xs text-gray-400">{t('scrollToSeeMoreJobs')} ↓</span>
                             </div>
                             <div className="space-y-2 overflow-y-auto pr-1" style={{maxHeight: '350px'}}>
                               {jobSearchResults.map((job, idx) => (
