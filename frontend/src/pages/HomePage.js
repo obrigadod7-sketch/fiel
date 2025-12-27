@@ -1229,7 +1229,7 @@ export default function HomePage() {
                         </Button>
                         
                         <p className="text-xs text-center text-gray-500">
-                          Seu perfil será publicado e você receberá vagas relacionadas a "{jobSearchQuery}"
+                          Você receberá vagas personalizadas de &ldquo;{jobSearchQuery}&rdquo; no seu feed
                         </p>
                       </div>
                     </div>
