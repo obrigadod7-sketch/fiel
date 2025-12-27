@@ -135,6 +135,51 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchHousingListings = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/housing`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setHousingListings(data);
+      }
+    } catch (error) {
+      console.error('Error fetching housing listings:', error);
+    }
+  };
+
+  const updateHousingStatus = async (listingId, newStatus) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/housing/${listingId}/status?new_status=${newStatus}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        toast.success(`Status atualizado para ${newStatus}`);
+        fetchHousingListings();
+      }
+    } catch (error) {
+      toast.error('Erro ao atualizar status');
+    }
+  };
+
+  const deleteHousingListing = async (listingId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/housing/${listingId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        toast.success('Anúncio removido com sucesso');
+        fetchHousingListings();
+        setShowHousingDetailDialog(false);
+      }
+    } catch (error) {
+      toast.error('Erro ao remover anúncio');
+    }
+  };
+
   // Função para adicionar novo administrador
   const handleAddAdmin = async () => {
     if (!newAdmin.email || !newAdmin.password || !newAdmin.name) {
