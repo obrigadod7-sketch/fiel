@@ -1174,6 +1174,7 @@ const resources = {
       profile: 'Perfil',
       map: 'Mapa',
       volunteers: 'Voluntarios',
+      helpNav: 'Ayudar',
       services: 'Servicios',
       nearbyHelp: 'Ayuda Cercana',
       all: 'Todos',
