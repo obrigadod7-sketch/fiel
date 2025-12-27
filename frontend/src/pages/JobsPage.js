@@ -230,8 +230,11 @@ export default function JobsPage() {
   const searchExternalJobs = async (query, location, page = 1) => {
     setSearchLoading(true);
     try {
+      // Traduzir termo de busca para francês
+      const translatedQuery = translateSearchTerm(query || 'emploi');
+      
       const params = new URLSearchParams({
-        query: query || 'emploi',
+        query: translatedQuery,
         location: location || 'France',
         page: page.toString(),
         date_posted: 'all'
