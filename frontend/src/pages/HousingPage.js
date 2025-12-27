@@ -581,6 +581,45 @@ export default function HousingPage() {
                   </div>
                 </div>
 
+                {/* Availability Calendar */}
+                {(selectedListing.available_from || selectedListing.available_until) && (
+                  <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Calendar size={18} className="text-blue-600" />
+                      {t('availability')}
+                    </h3>
+                    <div className="flex items-center gap-4">
+                      {selectedListing.available_from && (
+                        <div className="flex-1 p-3 bg-white rounded-lg text-center">
+                          <p className="text-xs text-gray-500 mb-1">{t('from')}</p>
+                          <p className="font-semibold text-blue-600">
+                            {new Date(selectedListing.available_from).toLocaleDateString('pt-BR', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric'
+                            })}
+                          </p>
+                        </div>
+                      )}
+                      {selectedListing.available_until && (
+                        <>
+                          <ChevronRight className="text-gray-400" />
+                          <div className="flex-1 p-3 bg-white rounded-lg text-center">
+                            <p className="text-xs text-gray-500 mb-1">{t('until')}</p>
+                            <p className="font-semibold text-blue-600">
+                              {new Date(selectedListing.available_until).toLocaleDateString('pt-BR', {
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric'
+                              })}
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Description */}
                 <div className="mb-6">
                   <h3 className="font-semibold mb-2">{t('description')}</h3>
